@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { ASSETS } from '../constants/assets';
+import '@google/model-viewer';
 
 const Hero: React.FC = () => {
   return (
@@ -50,22 +51,18 @@ const Hero: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
             
             <div className="relative z-10 w-full h-full flex items-center justify-center">
-              {/* Placeholder / Poster Image for 3D Model */}
-              <img
-                src={ASSETS.hero.modelPoster}
-                alt="3D Model Placeholder"
-                className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-screen"
-              />
-              
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
-              
-              {/* Loading State / UI Overlay */}
-              <div className="relative z-20 text-center space-y-4 bg-black/40 p-6 rounded-xl border border-primary/20 backdrop-blur-sm">
-                <div className="w-16 h-16 mx-auto border border-primary/40 rounded-full relative animate-pulse flex items-center justify-center shadow-[0_0_30px_rgba(0,229,255,0.15)] bg-[#0a0a0a]/50">
-                  <span className="material-symbols-outlined text-primary text-3xl">view_in_ar</span>
-                </div>
-                <p className="text-primary font-mono text-xs tracking-[0.2em] uppercase">Initializing 3D Environment...</p>
-              </div>
+              <model-viewer
+                src={ASSETS.model.uuvModel}
+                poster={ASSETS.hero.modelPoster}
+                alt="UUV 3D Model"
+                camera-controls
+                auto-rotate
+                autoplay
+                ar
+                class="absolute inset-0 w-full h-full"
+                style={{ backgroundColor: '#0a0a0a' }}
+              ></model-viewer>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent pointer-events-none"></div>
             </div>
 
             {/* HUD Elements */}
@@ -73,7 +70,7 @@ const Hero: React.FC = () => {
               <div className="h-1 w-12 bg-primary shadow-[0_0_10px_rgba(0,229,255,0.8)]"></div>
               <div className="h-1 w-6 bg-primary/50"></div>
             </div>
-            <div className="absolute bottom-6 right-6 font-mono text-primary/80 text-xs z-20 text-right">
+            <div className="absolute bottom-6 right-6 font-mono text-primary/80 text-xs z-20 text-right pointer-events-none">
               SYS.STATUS: ONLINE<br />
               DEPTH: 0.0M
             </div>
