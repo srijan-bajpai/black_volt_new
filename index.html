@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blackvolt Technologies | Autonomous Underwater Systems</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#00E5FF", // Electric Cyan
+              "primary-dark": "#00B8CC",
+              secondary: "#00FFFF", // Neon-Cyan
+              "secondary-dark": "#00CED1",
+              "background-light": "#050505",
+              "background-dark": "#0a0a0a", // Strict Void Black
+              "surface-dark": "#121212",
+              "glass-border": "rgba(255, 255, 255, 0.08)",
+              "glass-bg": "rgba(10, 10, 10, 0.6)",
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              display: ["Space Grotesk", "sans-serif"],
+              mono: ["Courier New", "Courier", "monospace"],
+            },
+            backgroundImage: {
+              "grid-pattern":
+                "radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px)",
+              "glow-radial":
+                "radial-gradient(circle at center, var(--tw-gradient-stops))",
+            },
+          },
+        },
+      };
+    </script>
+    <script>
+      // Ensure the JavaScript code is complete and properly structured
+      const exampleObject = {
+        key: "value",
+        nested: {
+          anotherKey: "anotherValue",
+        },
+      };
+    </script>
+    <style type="text/tailwindcss">
+      @layer base {
+        body {
+          @apply bg-[#0a0a0a] text-gray-100 font-sans antialiased overflow-x-hidden;
+        }
+      }
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0a0a0a;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555; /* Add a hover color for the scrollbar thumb */
+      }
+      .text-glow {
+        text-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+      }
+      .text-glow-secondary {
+        text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+      }
+      .canvas-grid {
+        background-size: 40px 40px;
+        background-image: linear-gradient(
+            to right,
+            rgba(0, 229, 255, 0.05) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(0, 229, 255, 0.05) 1px,
+            transparent 1px
+          );
+      }
+      .anim-element {
+        opacity: 0;
+        transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        will-change: transform, opacity, clip-path;
+      }
+      .anim-zoom-in {
+        transform: scale(0.9);
+        filter: blur(5px);
+      }
+      .anim-zoom-in.visible {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+      }
+      .anim-slide-in-right {
+        transform: translateX(100px);
+      }
+      .anim-slide-in-right.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .anim-slide-left {
+        transform: translateX(-80px);
+      }
+      .anim-slide-left.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .anim-slide-right {
+        transform: translateX(80px);
+      }
+      .anim-slide-right.visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .anim-reveal-text {
+        clip-path: inset(100% 0 0 0);
+        transform: translateY(30px);
+      }
+      .anim-reveal-text.visible {
+        opacity: 1;
+        clip-path: inset(0 0 0 0);
+        transform: translateY(0);
+      }
+      .anim-bento-zoom {
+        transform: scale(0.92) translateY(30px);
+      }
+      .anim-bento-zoom.visible {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+      .anim-scale-subtle {
+        transform: scale(1.15);
+      }
+      .anim-scale-subtle.visible {
+        opacity: 1;
+        transform: scale(1);
+        transition-duration: 1.5s;
+      }
+      .anim-team-entry {
+        transform: scale(0.8) translateY(60px);
+        filter: grayscale(1);
+      }
+      .anim-team-entry.visible {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: grayscale(0);
+      }
+      .reveal-on-scroll {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.8s ease-out;
+      }
+      .reveal-on-scroll.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .bg-clip-text-metallic {
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        background-image: linear-gradient(to right, #ffffff, #94a3b8);
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
