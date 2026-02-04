@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#0a0a0a] text-gray-100 font-sans antialiased overflow-x-hidden;
+  }
+}
+
+/* --- CUSTOM ANIMATIONS --- */
+
+/* Base State (Hidden) */
+.anim-element {
+  opacity: 0;
+  transform: translateY(30px); /* Start slightly down */
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+/* Visible State (Triggered by JS) */
+.anim-element.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Specific Animation Variations */
+.anim-reveal-text {
+  transform: translateY(40px);
+}
+.anim-reveal-text.visible {
+  transform: translateY(0);
+}
+
+.anim-slide-in-right {
+  transform: translateX(50px);
+  opacity: 0;
+}
+.anim-slide-in-right.visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.anim-slide-left {
+  transform: translateX(50px);
+}
+.anim-slide-left.visible {
+  transform: translateX(0);
+}
+
+.anim-scale-subtle {
+  transform: scale(0.95);
+  opacity: 0;
+}
+.anim-scale-subtle.visible {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.anim-zoom-in {
+  transform: scale(0.9);
+  opacity: 0;
+}
+.anim-zoom-in.visible {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* --- GLOW EFFECTS --- */
+.text-glow {
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
+}
+
+.text-glow-secondary {
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+}
+
+.mask-image-gradient {
+  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+}
