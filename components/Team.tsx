@@ -26,12 +26,12 @@ const Team: React.FC = () => {
             </div>
           </div>
 
-          {/* Sarthak Varchaswi */}
+          {/* Sarthak Varchasvi */}
           <div className="bg-[#111111]/50 border border-white/10 rounded-2xl p-8 text-center hover:border-primary/30 transition-colors anim-element anim-team-entry" style={{ transitionDelay: '100ms' }}>
             <div className="w-20 h-20 mx-auto rounded-full overflow-hidden border border-primary/20 mb-6">
-              <img src="/assets/sarthak.png" alt="Sarthak Varchaswi" className="w-full h-full object-cover" />
+              <img src="/assets/sarthak.png" alt="Sarthak Varchasvi" className="w-full h-full object-cover" />
             </div>
-            <h3 className="text-xl font-bold text-white">Mr. Sarthak Varchaswi</h3>
+            <h3 className="text-xl font-bold text-white">Mr. Sarthak Varchasvi</h3>
             <p className="text-primary text-xs uppercase tracking-wider mb-4">Co-Founder & CTO — Robotics</p>
             <p className="text-sm text-gray-400 mb-6">Heads mechanical design, embedded systems, and autonomy integration.</p>
             <div className="flex justify-center gap-4">
