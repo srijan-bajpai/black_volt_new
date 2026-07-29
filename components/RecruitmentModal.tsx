@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ArrowRight, ArrowLeft, Send, CheckCircle, Info } from 'lucide-react';
+import { GOOGLE_FORM_CONFIG } from '../constants/formConfig';
 
 interface RecruitmentModalProps {
   isOpen: boolean;
@@ -144,23 +145,45 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
     if (validateStep(4)) {
       setIsSubmitting(true);
       try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-        const response = await fetch(`${apiUrl}/api/apply`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
+        const urlParams = new URLSearchParams();
+        
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.name, formData.name);
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.regNo, formData.regNo);
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.email, formData.email);
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.year, formData.year);
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.whatsapp, formData.whatsapp);
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.whyJoin, formData.whyJoin);
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.defenseTechExcites, formData.defenseTechExcites);
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.gainExpectation, formData.gainExpectation);
+        
+        // Google Forms accepts multiple check options under the same field key
+        formData.interests.forEach(interest => {
+          urlParams.append(GOOGLE_FORM_CONFIG.fields.interests, interest);
         });
-        const result = await response.json();
-        if (response.ok && result.success) {
-          setIsSubmitted(true);
-        } else {
-          setErrors(prev => ({ ...prev, comments: result.message || 'Submission failed.' }));
-        }
+
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.experienceLevel, formData.experienceLevel.toString());
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.techExperience, formData.techExperience);
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.resumeLink, formData.resumeLink);
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.foundingTeam, formData.foundingTeam);
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.hoursContribution, formData.hoursContribution);
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.comments, formData.comments);
+
+        // Submit via post to formResponse
+        await fetch(GOOGLE_FORM_CONFIG.submitUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: urlParams.toString(),
+        });
+
+        // Under mode 'no-cors', we cannot read the response object, 
+        // but if no network error occurs, we confirm transmission.
+        setIsSubmitted(true);
       } catch (err) {
         console.error('Submission error:', err);
-        setErrors(prev => ({ ...prev, comments: 'Failed to connect to server. Ensure backend is running.' }));
+        setErrors(prev => ({ ...prev, comments: 'Failed to upload response. Check your internet connection.' }));
       } finally {
         setIsSubmitting(false);
       }
