@@ -1,25 +1,23 @@
 export const GOOGLE_FORM_CONFIG = {
-  // REPLACE this with your Google Form Action URL (ends with /formResponse)
-  // Example: https://docs.google.com/forms/d/e/1FAIpQLSfxxxxxxxxx/formResponse
-  submitUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSfp-YOUR-FORM-ID/formResponse',
+  // Google Form Action URL for BlackVolt Technologies Recruitment
+  submitUrl: 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSd8udPEmwU9vKBdzos_AtDFLd8fHjBa8YkeFq6ygsT5XCHVHw/formResponse',
   
-  // Map each React state field to the corresponding Google Form "entry.XXXXXXXX" name.
-  // We extracted the first few IDs from your HTML snippet. Please replace the placeholders.
+  // Exact Entry ID mappings extracted from your form source code
   fields: {
-    name: 'entry.826355120',                  // Extracted from HTML
-    regNo: 'entry.2076415673',                // Extracted from HTML
-    email: 'entry.1149713456',                // Extracted from HTML
-    year: 'entry.768435866',                  // Extracted from HTML
-    whatsapp: 'entry.YOUR_WHATSAPP_ID',        // Replace with actual entry.XXXX ID
-    whyJoin: 'entry.YOUR_WHY_JOIN_ID',        // Replace with actual entry.XXXX ID
-    defenseTechExcites: 'entry.YOUR_DEFENSE_TECH_ID', // Replace with actual entry.XXXX ID
-    gainExpectation: 'entry.YOUR_GAIN_ID',    // Replace with actual entry.XXXX ID
-    interests: 'entry.YOUR_INTERESTS_ID',      // Replace with actual entry.XXXX ID
-    experienceLevel: 'entry.YOUR_EXP_LEVEL_ID', // Replace with actual entry.XXXX ID
-    techExperience: 'entry.YOUR_TECH_EXP_ID',  // Replace with actual entry.XXXX ID
-    resumeLink: 'entry.YOUR_RESUME_LINK_ID',  // Replace with actual entry.XXXX ID
-    foundingTeam: 'entry.YOUR_FOUNDING_TEAM_ID', // Replace with actual entry.XXXX ID
-    hoursContribution: 'entry.YOUR_HOURS_ID',  // Replace with actual entry.XXXX ID
-    comments: 'entry.YOUR_COMMENTS_ID'        // Replace with actual entry.XXXX ID
+    name: 'entry.2092238618',
+    regNo: 'entry.1355431871',
+    email: 'entry.1556369182',
+    year: 'entry.962303349',
+    whatsapp: 'entry.479301265',
+    whyJoin: 'entry.1153715440',
+    defenseTechExcites: 'entry.695313756',
+    gainExpectation: 'entry.1280180669',
+    interests: 'entry.1572143801',
+    experienceLevel: 'entry.1699629585',
+    techExperience: 'entry.561207276',
+    resumeLink: 'entry.1303712015',
+    foundingTeam: 'entry.1381829151',
+    hoursContribution: 'entry.721698167',
+    comments: 'entry.1289256701'
   }
 };
