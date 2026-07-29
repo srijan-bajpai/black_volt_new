@@ -169,6 +169,10 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
         urlParams.append(GOOGLE_FORM_CONFIG.fields.hoursContribution, formData.hoursContribution);
         urlParams.append(GOOGLE_FORM_CONFIG.fields.comments, formData.comments);
 
+        // Required hidden parameters for multi-page Google Forms validation
+        urlParams.append('fvv', '1');
+        urlParams.append('pageHistory', '0,1,2,3');
+
         // Submit via post to formResponse
         await fetch(GOOGLE_FORM_CONFIG.submitUrl, {
           method: 'POST',
