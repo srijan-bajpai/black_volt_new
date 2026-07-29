@@ -150,6 +150,7 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
         urlParams.append(GOOGLE_FORM_CONFIG.fields.name, formData.name);
         urlParams.append(GOOGLE_FORM_CONFIG.fields.regNo, formData.regNo);
         urlParams.append(GOOGLE_FORM_CONFIG.fields.email, formData.email);
+        urlParams.append('emailAddress', formData.email); // Sends email directly to Google's automatic email collection field if enabled
         urlParams.append(GOOGLE_FORM_CONFIG.fields.year, formData.year);
         urlParams.append(GOOGLE_FORM_CONFIG.fields.whatsapp, formData.whatsapp);
         urlParams.append(GOOGLE_FORM_CONFIG.fields.whyJoin, formData.whyJoin);
