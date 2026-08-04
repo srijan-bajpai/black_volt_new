@@ -21,8 +21,9 @@ interface FormData {
   gainExpectation: string;
 
   // Section 3: Technical Background
-  interests: string[];
-  experienceLevel: number;
+  departments: string[];
+  skills: string[];
+  skillRatings: Record<string, number>;
   techExperience: string;
   resumeLink: string;
 
@@ -41,8 +42,9 @@ const initialFormData: FormData = {
   whyJoin: '',
   defenseTechExcites: '',
   gainExpectation: '',
-  interests: [],
-  experienceLevel: 3,
+  departments: [],
+  skills: [],
+  skillRatings: {},
   techExperience: '',
   resumeLink: '',
   foundingTeam: '',
@@ -78,16 +80,50 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
     }
   };
 
-  const handleCheckboxChange = (interest: string) => {
+  const handleDepartmentChange = (dept: string) => {
     setFormData(prev => {
-      const interests = prev.interests.includes(interest)
-        ? prev.interests.filter(i => i !== interest)
-        : [...prev.interests, interest];
+      const departments = prev.departments.includes(dept)
+        ? prev.departments.filter(d => d !== dept)
+        : [...prev.departments, dept];
       
-      if (errors.interests && interests.length > 0) {
-        setErrors(prevErr => ({ ...prevErr, interests: undefined }));
+      if (errors.departments && departments.length > 0) {
+        setErrors(prevErr => ({ ...prevErr, departments: undefined }));
       }
-      return { ...prev, interests };
+      return { ...prev, departments };
+    });
+  };
+
+  const handleSkillChange = (skill: string) => {
+    setFormData(prev => {
+      const skills = prev.skills.includes(skill)
+        ? prev.skills.filter(s => s !== skill)
+        : [...prev.skills, skill];
+      
+      const skillRatings = { ...prev.skillRatings };
+      if (!prev.skills.includes(skill)) {
+        skillRatings[skill] = 3;
+      } else {
+        delete skillRatings[skill];
+      }
+
+      if (errors.skills && skills.length > 0) {
+        setErrors(prevErr => ({ ...prevErr, skills: undefined }));
+      }
+      return { ...prev, skills, skillRatings };
+    });
+  };
+
+  const handleSkillRatingChange = (skill: string, rating: number) => {
+    setFormData(prev => {
+      const skillRatings = { ...prev.skillRatings, [skill]: rating };
+      const skills = prev.skills.includes(skill)
+        ? prev.skills
+        : [...prev.skills, skill];
+        
+      if (errors.skills) {
+        setErrors(prevErr => ({ ...prevErr, skills: undefined }));
+      }
+      return { ...prev, skills, skillRatings };
     });
   };
 
@@ -117,7 +153,15 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
     }
 
     if (step === 3) {
-      if (formData.interests.length === 0) newErrors.interests = 'Please select at least one area of interest';
+      if (formData.departments.length === 0) newErrors.departments = 'Please select at least one department';
+      if (formData.skills.length === 0) {
+        newErrors.skills = 'Please select at least one skill';
+      } else {
+        const unratedSkills = formData.skills.filter(s => !formData.skillRatings[s]);
+        if (unratedSkills.length > 0) {
+          newErrors.skills = 'Please rate your experience level for all selected skills';
+        }
+      }
       if (!formData.techExperience.trim()) newErrors.techExperience = 'Please describe your relevant technical experience';
     }
 
@@ -158,12 +202,21 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
         urlParams.append(GOOGLE_FORM_CONFIG.fields.gainExpectation, formData.gainExpectation);
         
         // Google Forms accepts multiple check options under the same field key
-        formData.interests.forEach(interest => {
-          urlParams.append(GOOGLE_FORM_CONFIG.fields.interests, interest);
+        formData.departments.forEach(dept => {
+          urlParams.append(GOOGLE_FORM_CONFIG.fields.interests, dept);
         });
 
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.experienceLevel, formData.experienceLevel.toString());
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.techExperience, formData.techExperience);
+        // Compute average skill experience level to map to experienceLevel field
+        const avgRating = formData.skills.length > 0
+          ? Math.round(formData.skills.reduce((acc, curr) => acc + (formData.skillRatings[curr] || 3), 0) / formData.skills.length)
+          : 3;
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.experienceLevel, avgRating.toString());
+
+        // Prepend skill rating breakdown to technical experience text field
+        const skillDetails = formData.skills.map(skill => `${skill}: ${formData.skillRatings[skill]}/5`).join(', ');
+        const formattedTechExperience = `[Skills: ${skillDetails}]\n\n${formData.techExperience}`;
+        urlParams.append(GOOGLE_FORM_CONFIG.fields.techExperience, formattedTechExperience);
+
         urlParams.append(GOOGLE_FORM_CONFIG.fields.resumeLink, formData.resumeLink);
         urlParams.append(GOOGLE_FORM_CONFIG.fields.foundingTeam, formData.foundingTeam);
         urlParams.append(GOOGLE_FORM_CONFIG.fields.hoursContribution, formData.hoursContribution);
@@ -195,19 +248,27 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
     }
   };
 
-  const interestOptions = [
-    'Mechanical Design / Fabrication',
-    'Electronics / Power Systems',
-    'Control Systems / Embedded Programming',
-    'Autonomy / Simulation',
+  const departmentOptions = [
+    'AUV',
+    'CubeSAT',
+    'Counter Drone System',
+    'Web dev',
+    'Socials',
+    'Outreach',
+    'Graphics design'
+  ];
+
+  const skillOptions = [
     'AI & ML',
-    'Underwater Robotics',
-    'Multirotor Systems',
-    'Micro/Nano satellites',
-    'Operations / Documentation / Logistics',
-    'Graphic Design',
-    'WebDev',
-    'Not sure yet (open to learning)'
+    'ROS',
+    'RnD',
+    'Electronics and Embeded',
+    'CAD Designing',
+    'Ansys',
+    'Web dev',
+    'Graphics design',
+    'Outreach',
+    'Socials'
   ];
 
   return (
@@ -345,6 +406,7 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                           <option value="2nd Year">2nd Year</option>
                           <option value="3rd Year">3rd Year</option>
                           <option value="4th Year">4th Year</option>
+                          <option value="Passout">Passout</option>
                         </select>
                         {errors.year && <p className="text-xs text-red-500 font-mono mt-1">{errors.year}</p>}
                       </div>
@@ -421,60 +483,94 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                   </div>
                 )}
 
-                {/* STEP 3: TECHNICAL BACKGROUND */}
+                 {/* STEP 3: TECHNICAL BACKGROUND */}
                 {currentStep === 3 && (
                   <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
                     <div className="space-y-3">
                       <label className="text-sm font-semibold text-gray-300 block">
-                        Which areas interest you the most? (Select more than 1) <span className="text-[#00E5FF]">*</span>
+                        Which departments are you interested in joining? (Select all that apply) <span className="text-[#00E5FF]">*</span>
                       </label>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {interestOptions.map(option => (
+                        {departmentOptions.map(option => (
                           <div 
                             key={option}
-                            onClick={() => handleCheckboxChange(option)}
+                            onClick={() => handleDepartmentChange(option)}
                             className={`flex items-center gap-3 p-3 border rounded-xl cursor-pointer select-none transition-all duration-300 ${
-                              formData.interests.includes(option)
+                              formData.departments.includes(option)
                                 ? 'bg-[#00E5FF]/10 border-[#00E5FF] text-[#00E5FF]'
                                 : 'bg-[#111111] border-white/5 text-gray-300 hover:border-white/20'
                             }`}
                           >
                             <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
-                              formData.interests.includes(option) ? 'bg-[#00E5FF] border-[#00E5FF]' : 'border-gray-500'
+                              formData.departments.includes(option) ? 'bg-[#00E5FF] border-[#00E5FF]' : 'border-gray-500'
                             }`}>
-                              {formData.interests.includes(option) && <span className="material-symbols-outlined text-xs text-black font-bold">check</span>}
+                              {formData.departments.includes(option) && <span className="material-symbols-outlined text-xs text-black font-bold">check</span>}
                             </div>
                             <span className="text-xs font-medium">{option}</span>
                           </div>
                         ))}
                       </div>
-                      {errors.interests && <p className="text-xs text-red-500 font-mono mt-1">{errors.interests}</p>}
+                      {errors.departments && <p className="text-xs text-red-500 font-mono mt-1">{errors.departments}</p>}
                     </div>
 
                     <div className="space-y-4">
                       <label className="text-sm font-semibold text-gray-300 block">
-                        Rate your current hands-on experience level: <span className="text-[#00E5FF]">*</span>
+                        Select your skills and rate your experience level for each (1 to 5): <span className="text-[#00E5FF]">*</span>
                       </label>
-                      <div className="flex items-center justify-between gap-4 max-w-lg mx-auto bg-[#111111] p-4 border border-white/5 rounded-xl">
-                        <span className="text-xs text-gray-400">Beginner</span>
-                        <div className="flex gap-2">
-                          {[1, 2, 3, 4, 5].map((lvl) => (
-                            <button
-                              key={lvl}
-                              type="button"
-                              onClick={() => setFormData(prev => ({ ...prev, experienceLevel: lvl }))}
-                              className={`w-10 h-10 rounded-lg font-mono text-sm transition-all duration-300 border ${
-                                formData.experienceLevel === lvl
-                                  ? 'bg-[#00E5FF] border-[#00E5FF] text-black font-bold shadow-[0_0_10px_rgba(0,229,255,0.4)]'
-                                  : 'bg-[#0a0a0a] border-white/10 text-gray-400 hover:border-[#00E5FF]/50 hover:text-[#00E5FF]'
+                      <div className="space-y-3">
+                        {skillOptions.map(skill => {
+                          const isSelected = formData.skills.includes(skill);
+                          const rating = formData.skillRatings[skill] || 0;
+                          return (
+                            <div 
+                              key={skill} 
+                              onClick={() => handleSkillChange(skill)}
+                              className={`p-4 border rounded-xl cursor-pointer select-none transition-all duration-300 ${
+                                isSelected 
+                                  ? 'bg-[#00E5FF]/5 border-[#00E5FF]/50 text-white' 
+                                  : 'bg-[#111111] border-white/5 text-gray-400 hover:border-white/20'
                               }`}
                             >
-                              {lvl}
-                            </button>
-                          ))}
-                        </div>
-                        <span className="text-xs text-gray-400">Advanced</span>
+                              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div className="flex items-center gap-3">
+                                  <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all ${
+                                    isSelected ? 'bg-[#00E5FF] border-[#00E5FF]' : 'border-gray-500'
+                                  }`}>
+                                    {isSelected && <span className="material-symbols-outlined text-xs text-black font-bold">check</span>}
+                                  </div>
+                                  <span className="text-sm font-medium">{skill}</span>
+                                </div>
+
+                                {isSelected && (
+                                  <div 
+                                    className="flex items-center gap-3 animate-in fade-in duration-300"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <span className="text-xs text-gray-400">Experience:</span>
+                                    <div className="flex gap-1">
+                                      {[1, 2, 3, 4, 5].map((lvl) => (
+                                        <button
+                                          key={lvl}
+                                          type="button"
+                                          onClick={() => handleSkillRatingChange(skill, lvl)}
+                                          className={`w-8 h-8 rounded-lg font-mono text-xs transition-all duration-300 border ${
+                                            rating === lvl
+                                              ? 'bg-[#00E5FF] border-[#00E5FF] text-black font-bold shadow-[0_0_8px_rgba(0,229,255,0.4)]'
+                                              : 'bg-[#0a0a0a] border-white/10 text-gray-400 hover:border-[#00E5FF]/50 hover:text-[#00E5FF]'
+                                          }`}
+                                        >
+                                          {lvl}
+                                        </button>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
+                      {errors.skills && <p className="text-xs text-red-500 font-mono mt-1">{errors.skills}</p>}
                     </div>
 
                     <div className="space-y-2">
@@ -506,6 +602,9 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                         className="w-full bg-[#111111] border border-white/10 focus:border-[#00E5FF] rounded-xl p-3 text-white text-sm focus:ring-0 focus:outline-none transition-colors"
                         placeholder="https://drive.google.com/your-resume-link"
                       />
+                      <p className="text-xs text-gray-400 mt-1 leading-normal">
+                        <strong>Please make sure you change the sharing settings of your Google Drive link to public ("Anyone with the link can view") so we can access your resume.</strong>
+                      </p>
                     </div>
                   </div>
                 )}
@@ -515,7 +614,7 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                   <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-300">
                     <div className="space-y-3">
                       <label className="text-sm font-semibold text-gray-300 block">
-                        If selected, are you willing to be part of the founding team and grow with the project from the ground up? <span className="text-[#00E5FF]">*</span>
+                        If selected, are you willing to be part of the team and grow with the project from the ground up? <span className="text-[#00E5FF]">*</span>
                       </label>
                       <div className="flex gap-4">
                         {['Yes', 'No'].map(val => (
