@@ -332,13 +332,6 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                 {/* STEP 1: BASIC DETAILS */}
                 {currentStep === 1 && (
                   <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
-                    <div className="p-5 border border-[#00E5FF]/20 bg-[#00E5FF]/5 rounded-xl text-sm text-gray-300 leading-relaxed flex gap-3">
-                      <Info className="w-5 h-5 text-[#00E5FF] shrink-0 mt-0.5" />
-                      <div>
-                        <strong className="text-white">BlackVolt Technologies Pvt. Ltd.</strong> is an Indian defence-tech startup building advanced autonomous and unmanned systems. Please provide your academic and contact details to get started.
-                      </div>
-                    </div>
-
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <label htmlFor="name" className="text-sm font-semibold text-gray-300 flex items-center gap-1">
@@ -351,14 +344,13 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                           value={formData.name}
                           onChange={handleInputChange}
                           className={`w-full bg-[#111111] border ${errors.name ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-[#00E5FF]'} rounded-xl p-3 text-white text-sm focus:ring-0 focus:outline-none transition-colors`}
-                          placeholder="John Doe"
                         />
                         {errors.name && <p className="text-xs text-red-500 font-mono mt-1">{errors.name}</p>}
                       </div>
 
                       <div className="space-y-2">
                         <label htmlFor="regNo" className="text-sm font-semibold text-gray-300 flex items-center gap-1">
-                          Registration / Roll Number <span className="text-[#00E5FF]">*</span>
+                          Registration Number (as per institute) <span className="text-[#00E5FF]">*</span>
                         </label>
                         <input
                           type="text"
@@ -367,7 +359,6 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                           value={formData.regNo}
                           onChange={handleInputChange}
                           className={`w-full bg-[#111111] border ${errors.regNo ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-[#00E5FF]'} rounded-xl p-3 text-white text-sm focus:ring-0 focus:outline-none transition-colors`}
-                          placeholder="e.g. RA2111003010000"
                         />
                         {errors.regNo && <p className="text-xs text-red-500 font-mono mt-1">{errors.regNo}</p>}
                       </div>
@@ -385,7 +376,6 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                           value={formData.email}
                           onChange={handleInputChange}
                           className={`w-full bg-[#111111] border ${errors.email ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-[#00E5FF]'} rounded-xl p-3 text-white text-sm focus:ring-0 focus:outline-none transition-colors`}
-                          placeholder="student@university.edu"
                         />
                         {errors.email && <p className="text-xs text-red-500 font-mono mt-1">{errors.email}</p>}
                       </div>
@@ -423,7 +413,6 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                         value={formData.whatsapp}
                         onChange={handleInputChange}
                         className={`w-full bg-[#111111] border ${errors.whatsapp ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-[#00E5FF]'} rounded-xl p-3 text-white text-sm focus:ring-0 focus:outline-none transition-colors`}
-                        placeholder="+91 XXXXXXXXXX"
                       />
                       {errors.whatsapp && <p className="text-xs text-red-500 font-mono mt-1">{errors.whatsapp}</p>}
                     </div>
@@ -444,7 +433,6 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                         value={formData.whyJoin}
                         onChange={handleInputChange}
                         className={`w-full bg-[#111111] border ${errors.whyJoin ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-[#00E5FF]'} rounded-xl p-3 text-white text-sm focus:ring-0 focus:outline-none transition-colors resize-none`}
-                        placeholder="Explain your motivation to join our core team..."
                       />
                       {errors.whyJoin && <p className="text-xs text-red-500 font-mono mt-1">{errors.whyJoin}</p>}
                     </div>
@@ -460,7 +448,6 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                         value={formData.defenseTechExcites}
                         onChange={handleInputChange}
                         className={`w-full bg-[#111111] border ${errors.defenseTechExcites ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-[#00E5FF]'} rounded-xl p-3 text-white text-sm focus:ring-0 focus:outline-none transition-colors resize-none`}
-                        placeholder="Share your thoughts on Indian defence autonomy, drone technology, unmanned vehicles, etc."
                       />
                       {errors.defenseTechExcites && <p className="text-xs text-red-500 font-mono mt-1">{errors.defenseTechExcites}</p>}
                     </div>
@@ -476,7 +463,6 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                         value={formData.gainExpectation}
                         onChange={handleInputChange}
                         className={`w-full bg-[#111111] border ${errors.gainExpectation ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-[#00E5FF]'} rounded-xl p-3 text-white text-sm focus:ring-0 focus:outline-none transition-colors resize-none`}
-                        placeholder="Mention any technical skills, leadership experience, or field experience you expect to get."
                       />
                       {errors.gainExpectation && <p className="text-xs text-red-500 font-mono mt-1">{errors.gainExpectation}</p>}
                     </div>
@@ -584,7 +570,6 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                         value={formData.techExperience}
                         onChange={handleInputChange}
                         className={`w-full bg-[#111111] border ${errors.techExperience ? 'border-red-500 focus:border-red-500' : 'border-white/10 focus:border-[#00E5FF]'} rounded-xl p-3 text-white text-sm focus:ring-0 focus:outline-none transition-colors resize-none`}
-                        placeholder="Detail your prior projects, github repositories, research work, coding languages or tool experience..."
                       />
                       {errors.techExperience && <p className="text-xs text-red-500 font-mono mt-1">{errors.techExperience}</p>}
                     </div>
@@ -600,11 +585,7 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                         value={formData.resumeLink}
                         onChange={handleInputChange}
                         className="w-full bg-[#111111] border border-white/10 focus:border-[#00E5FF] rounded-xl p-3 text-white text-sm focus:ring-0 focus:outline-none transition-colors"
-                        placeholder="https://drive.google.com/your-resume-link"
                       />
-                      <p className="text-xs text-gray-400 mt-1 leading-normal">
-                        <strong>Please make sure you change the sharing settings of your Google Drive link to public ("Anyone with the link can view") so we can access your resume.</strong>
-                      </p>
                     </div>
                   </div>
                 )}
@@ -675,7 +656,6 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
                         value={formData.comments}
                         onChange={handleInputChange}
                         className="w-full bg-[#111111] border border-white/10 focus:border-[#00E5FF] rounded-xl p-3 text-white text-sm focus:ring-0 focus:outline-none transition-colors resize-none"
-                        placeholder="Anything else you'd like to share..."
                       />
                       {errors.comments && <p className="text-xs text-red-500 font-mono mt-1 text-center border border-red-500/20 bg-red-500/5 p-2 rounded-lg">{errors.comments}</p>}
                     </div>
@@ -732,20 +712,14 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
               </div>
 
               <p className="text-sm text-gray-400 leading-relaxed">
-                Thank you for applying to join the founding team of <strong className="text-white">BlackVolt Technologies</strong>. Your transmission has been securely logged. Our evaluation team will review your application and get in touch with you for the offline interview round.
+                Thank you for applying to join the team of <strong className="text-white">BlackVolt Technologies</strong>. Your application has been securely logged. Our evaluation team will review your application and get in touch with you for the interview round.
               </p>
-
-              <div className="bg-[#111111] p-4 rounded-xl border border-white/5 font-mono text-left text-xs text-gray-400 space-y-1">
-                <p><span className="text-[#00E5FF]">&gt;</span> STATUS: application_logged</p>
-                <p><span className="text-[#00E5FF]">&gt;</span> REGISTRATION: {formData.regNo}</p>
-                <p><span className="text-[#00E5FF]">&gt;</span> CHANNEL: direct_uplink_vnest</p>
-              </div>
 
               <button
                 onClick={onClose}
                 className="w-full py-3 bg-white text-black font-bold uppercase tracking-wider hover:bg-[#00E5FF] transition-colors duration-300 rounded-xl"
               >
-                Close Portal
+                Return to Homepage
               </button>
             </div>
           )}
