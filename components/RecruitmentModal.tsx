@@ -576,7 +576,7 @@ const RecruitmentModal: React.FC<RecruitmentModalProps> = ({ isOpen, onClose }) 
 
                     <div className="space-y-2">
                       <label htmlFor="resumeLink" className="text-sm font-semibold text-gray-300">
-                        Link to your resume <span className="text-xs text-gray-500">(Optional but recommended)</span>
+                        Link to your resume <span className="text-xs text-gray-500">(Please make sure the the shared link is set as anyone with a link)</span>
                       </label>
                       <input
                         type="url"
