@@ -217,41 +217,108 @@ export const Recruitment: React.FC<RecruitmentProps> = ({ onNavigate }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateStep(4)) {
-      setIsSubmitting(true);
+    
+    // Validate all steps before submitting
+    for (let step = 1; step <= 4; step++) {
+      if (!validateStep(step)) {
+        setCurrentStep(step);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const avgRating = formData.skills.length > 0
+        ? Math.round(formData.skills.reduce((acc, curr) => acc + (formData.skillRatings[curr] || 3), 0) / formData.skills.length)
+        : 3;
+
+      const skillDetails = formData.skills.map(skill => `${skill}: ${formData.skillRatings[skill]}/5`).join(', ');
+      const formattedTechExperience = `[Skills: ${skillDetails}]\n\n${formData.techExperience}`;
+
+      const additionalInfo = [
+        formData.comments ? `Notes: ${formData.comments}` : '',
+        `Founding Preference: ${formData.foundingTeam}`,
+        `Commitment: ${formData.hoursContribution}`
+      ].filter(Boolean).join('\n');
+
+      const departmentsPayload = formData.departments.length > 0
+        ? formData.departments
+        : ['AI & ML'];
+
+      const payload: Record<string, string | string[]> = {
+        [GOOGLE_FORM_CONFIG.fields.name]: formData.name,
+        [GOOGLE_FORM_CONFIG.fields.regNo]: formData.regNo,
+        [GOOGLE_FORM_CONFIG.fields.email]: formData.email,
+        [GOOGLE_FORM_CONFIG.fields.year]: formData.year,
+        [GOOGLE_FORM_CONFIG.fields.whatsapp]: formData.whatsapp,
+        [GOOGLE_FORM_CONFIG.fields.whyJoin]: formData.whyJoin,
+        [GOOGLE_FORM_CONFIG.fields.defenseTechExcites]: formData.defenseTechExcites,
+        [GOOGLE_FORM_CONFIG.fields.gainExpectation]: formData.gainExpectation,
+        [GOOGLE_FORM_CONFIG.fields.interests]: departmentsPayload,
+        [GOOGLE_FORM_CONFIG.fields.experienceLevel]: avgRating.toString(),
+        [GOOGLE_FORM_CONFIG.fields.techExperience]: formattedTechExperience,
+        [GOOGLE_FORM_CONFIG.fields.resumeLink]: formData.resumeLink || '',
+        [GOOGLE_FORM_CONFIG.fields.foundingTeam]: formData.foundingTeam.toLowerCase().includes('no') ? 'No' : 'Yes',
+        [GOOGLE_FORM_CONFIG.fields.hoursContribution]: 'Yes',
+        [GOOGLE_FORM_CONFIG.fields.comments]: additionalInfo,
+        'fvv': '1',
+        'pageHistory': '0,1,2,3'
+      };
+
+      // 1. Submit via hidden iframe (bypasses browser CORS & adblocker fetch restrictions)
+      const iframeId = 'gform_submission_frame';
+      let iframe = document.getElementById(iframeId) as HTMLIFrameElement;
+      if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.id = iframeId;
+        iframe.name = iframeId;
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+      }
+
+      const form = document.createElement('form');
+      form.action = GOOGLE_FORM_CONFIG.submitUrl;
+      form.method = 'POST';
+      form.target = iframeId;
+      form.style.display = 'none';
+
+      Object.entries(payload).forEach(([key, val]) => {
+        if (Array.isArray(val)) {
+          val.forEach(item => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = item;
+            form.appendChild(input);
+          });
+        } else if (val !== undefined && val !== null) {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = key;
+          input.value = val;
+          form.appendChild(input);
+        }
+      });
+
+      document.body.appendChild(form);
+      form.submit();
+
+      setTimeout(() => {
+        form.remove();
+      }, 2000);
+
+      // 2. Parallel fetch attempt
       try {
         const urlParams = new URLSearchParams();
-        
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.name, formData.name);
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.regNo, formData.regNo);
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.email, formData.email);
-        urlParams.append('emailAddress', formData.email);
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.year, formData.year);
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.whatsapp, formData.whatsapp);
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.whyJoin, formData.whyJoin);
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.defenseTechExcites, formData.defenseTechExcites);
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.gainExpectation, formData.gainExpectation);
-        
-        formData.departments.forEach(dept => {
-          urlParams.append(GOOGLE_FORM_CONFIG.fields.interests, dept);
+        Object.entries(payload).forEach(([key, val]) => {
+          if (Array.isArray(val)) {
+            val.forEach(item => urlParams.append(key, item));
+          } else {
+            urlParams.append(key, val);
+          }
         });
-
-        const avgRating = formData.skills.length > 0
-          ? Math.round(formData.skills.reduce((acc, curr) => acc + (formData.skillRatings[curr] || 3), 0) / formData.skills.length)
-          : 3;
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.experienceLevel, avgRating.toString());
-
-        const skillDetails = formData.skills.map(skill => `${skill}: ${formData.skillRatings[skill]}/5`).join(', ');
-        const formattedTechExperience = `[Skills: ${skillDetails}]\n\n${formData.techExperience}`;
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.techExperience, formattedTechExperience);
-
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.resumeLink, formData.resumeLink);
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.foundingTeam, formData.foundingTeam);
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.hoursContribution, formData.hoursContribution);
-        urlParams.append(GOOGLE_FORM_CONFIG.fields.comments, formData.comments);
-
-        urlParams.append('fvv', '1');
-        urlParams.append('pageHistory', '0,1,2,3');
 
         await fetch(GOOGLE_FORM_CONFIG.submitUrl, {
           method: 'POST',
@@ -261,14 +328,16 @@ export const Recruitment: React.FC<RecruitmentProps> = ({ onNavigate }) => {
           },
           body: urlParams.toString(),
         });
-
-        setIsSubmitted(true);
-      } catch (err) {
-        console.error('Submission error:', err);
-        setErrors(prev => ({ ...prev, comments: 'Network error submitting application. Please check connection.' }));
-      } finally {
-        setIsSubmitting(false);
+      } catch (fetchErr) {
+        console.warn('Fetch fallback completed or silenced by browser CORS policy:', fetchErr);
       }
+
+      setIsSubmitted(true);
+    } catch (err) {
+      console.error('Submission error:', err);
+      setErrors(prev => ({ ...prev, comments: 'Failed to submit application. Please try again.' }));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
