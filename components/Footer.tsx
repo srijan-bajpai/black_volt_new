@@ -84,7 +84,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenModal }) => {
                   <label className="text-xs font-bold text-gray-500 uppercase">Name</label>
                   <input 
                     type="text" 
-                    placeholder="Full name" 
+                    placeholder="e.g. Rahul Sharma" 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full bg-black/50 border border-white/10 rounded p-3 text-white text-sm focus:border-primary focus:ring-0 focus:outline-none transition-colors" />
@@ -93,7 +93,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenModal }) => {
                   <label className="text-xs font-bold text-gray-500 uppercase">Email</label>
                   <input 
                     type="email" 
-                    placeholder="your@email.com" 
+                    placeholder="e.g. rahul.sharma@example.com" 
                     value={fromEmail}
                     onChange={(e) => setFromEmail(e.target.value)}
                     className="w-full bg-black/50 border border-white/10 rounded p-3 text-white text-sm focus:border-primary focus:ring-0 focus:outline-none transition-colors" />

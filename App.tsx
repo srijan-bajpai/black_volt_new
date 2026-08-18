@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Mission from './components/Mission';
@@ -6,11 +6,79 @@ import Platform from './components/Platform';
 import Roadmap from './components/Roadmap';
 import Team from './components/Team';
 import Footer from './components/Footer';
-import RecruitmentModal from './components/RecruitmentModal';
+import Recruitment from './components/Recruitment';
+import LoadingScreen from './components/LoadingScreen';
 
 function App() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPath, setCurrentPath] = useState<string>(() => {
+    const path = window.location.pathname.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+    if (path.includes('recurtment') || path.includes('recruitment') || hash.includes('recurtment') || hash.includes('recruitment')) {
+      return '/recurtment';
+    }
+    return '/';
+  });
+
+  const [isLoadingRecruitment, setIsLoadingRecruitment] = useState<boolean>(() => {
+    const path = window.location.pathname.toLowerCase();
+    const hash = window.location.hash.toLowerCase();
+    return path.includes('recurtment') || path.includes('recruitment') || hash.includes('recurtment') || hash.includes('recruitment');
+  });
+
   const [showPopup, setShowPopup] = useState(false);
+
+  // Client-side router navigation handler with loading screen trigger
+  const navigate = useCallback((targetPath: string) => {
+    let cleanPath = targetPath;
+    let targetHash = '';
+
+    if (cleanPath.includes('#')) {
+      const parts = cleanPath.split('#');
+      cleanPath = parts[0] || '/';
+      targetHash = '#' + parts[1];
+    }
+
+    const isTargetingRecruitment = cleanPath.toLowerCase().includes('recurtment') || cleanPath.toLowerCase().includes('recruitment');
+
+    if (isTargetingRecruitment) {
+      cleanPath = '/recurtment';
+      setIsLoadingRecruitment(true);
+    } else if (cleanPath === '') {
+      cleanPath = '/';
+      setIsLoadingRecruitment(false);
+    } else {
+      setIsLoadingRecruitment(false);
+    }
+
+    window.history.pushState({}, '', cleanPath + targetHash);
+    setCurrentPath(cleanPath);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (targetHash) {
+      setTimeout(() => {
+        const el = document.querySelector(targetHash);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, []);
+
+  // Listen to browser Back/Forward (popstate)
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname.toLowerCase();
+      const hash = window.location.hash.toLowerCase();
+      if (path.includes('recurtment') || path.includes('recruitment') || hash.includes('recurtment') || hash.includes('recruitment')) {
+        setCurrentPath('/recurtment');
+        setIsLoadingRecruitment(true);
+      } else {
+        setCurrentPath('/');
+        setIsLoadingRecruitment(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Scroll Animation Observer Logic
   useEffect(() => {
@@ -33,44 +101,55 @@ function App() {
     const elements = document.querySelectorAll('.anim-element, .reveal-on-scroll');
     elements.forEach(el => observer.observe(el));
 
-    // Show recruitment popup after 1.5 seconds
+    // Show recruitment popup after 1.5 seconds if on home page
     const timer = setTimeout(() => {
-      setShowPopup(true);
+      if (currentPath === '/' && !isLoadingRecruitment) {
+        setShowPopup(true);
+      }
     }, 1500);
 
     return () => {
       observer.disconnect();
       clearTimeout(timer);
     };
-  }, []); // Run once on mount
+  }, [currentPath, isLoadingRecruitment]);
 
-  const toggleModal = (show: boolean) => {
-    setIsModalOpen(show);
-    if (show) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  };
+  const isRecruitmentRoute = currentPath === '/recurtment' || currentPath === '/recruitment';
 
   return (
     <div className="bg-[#0a0a0a] min-h-screen text-gray-100 selection:bg-primary/30">
-      <Navbar onOpenModal={() => toggleModal(true)} />
+      {/* High-Tech Loading Screen when entering recruitment */}
+      {isLoadingRecruitment && (
+        <LoadingScreen 
+          onFinish={() => setIsLoadingRecruitment(false)} 
+          message="INITIALIZING BLACKVOLT RECRUITMENT PORTAL..."
+          duration={900}
+        />
+      )}
+
+      <Navbar 
+        currentPath={currentPath}
+        onNavigate={navigate} 
+        onOpenModal={() => navigate('/recurtment')} 
+      />
       
       <main>
-        <Hero />
-        <Mission />
-        <Platform />
-        <Roadmap />
-        <Team />
+        {isRecruitmentRoute ? (
+          <Recruitment onNavigate={navigate} />
+        ) : (
+          <>
+            <Hero />
+            <Mission />
+            <Platform />
+            <Roadmap />
+            <Team />
+            <Footer onOpenModal={() => navigate('/recurtment')} />
+          </>
+        )}
       </main>
 
-      <Footer onOpenModal={() => toggleModal(true)} />
-      
-      <RecruitmentModal isOpen={isModalOpen} onClose={() => toggleModal(false)} />
-
-      {/* Floating Recruitment Alert Popup */}
-      {showPopup && (
+      {/* Floating Recruitment Alert Popup (shown only on landing page) */}
+      {showPopup && !isRecruitmentRoute && !isLoadingRecruitment && (
         <div className="fixed bottom-6 right-6 z-40 max-w-sm w-[calc(100vw-3rem)] bg-[#0a0a0a]/90 backdrop-blur-md border border-primary/20 rounded-2xl p-5 shadow-[0_0_30px_rgba(0,229,255,0.15)] animate-in slide-in-from-bottom-5 duration-300">
           <button 
             onClick={() => setShowPopup(false)}
@@ -88,13 +167,14 @@ function App() {
               <p className="text-xs text-gray-400 mt-1 leading-relaxed">
                 Join the team at BlackVolt Technologies and build the future of defence-tech.
               </p>
+
               <div className="flex gap-3 mt-4">
                 <button
                   onClick={() => {
-                    toggleModal(true);
+                    navigate('/recurtment');
                     setShowPopup(false);
                   }}
-                  className="px-4 py-2 bg-primary text-black text-xs font-bold uppercase tracking-wider rounded hover:bg-white transition-colors duration-300"
+                  className="px-4 py-2 bg-primary text-black text-xs font-bold uppercase tracking-wider rounded hover:bg-white transition-colors duration-300 shadow-[0_0_15px_rgba(0,229,255,0.3)]"
                 >
                   Apply Now
                 </button>
