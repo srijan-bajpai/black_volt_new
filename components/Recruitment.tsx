@@ -755,7 +755,7 @@ export const Recruitment: React.FC<RecruitmentProps> = ({ onNavigate }) => {
 
                     <div>
                       <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">
-                        Are you interested in joining as a Core / Founding Engineering Member? <span className="text-primary">*</span>
+                        Are you interested in joining as a Core Engineering Member? <span className="text-primary">*</span>
                       </label>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {['Yes, absolutely', 'Interested in Project-Based / Contributor role'].map((opt) => (
