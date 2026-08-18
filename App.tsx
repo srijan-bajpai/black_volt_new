@@ -14,7 +14,7 @@ function App() {
   const [showDisclaimerModal, setShowDisclaimerModal] = useState<boolean>(() => {
     const path = window.location.pathname.toLowerCase();
     const hash = window.location.hash.toLowerCase();
-    return path.includes('recurtment') || path.includes('recruitment') || hash.includes('recurtment') || hash.includes('recruitment');
+    return path.includes('recruitment') || path.includes('recruitment') || hash.includes('recruitment') || hash.includes('recruitment');
   });
 
   const [currentPath, setCurrentPath] = useState<string>('/');
@@ -23,8 +23,8 @@ function App() {
 
   const handleProceedToRecruitment = useCallback(() => {
     setShowDisclaimerModal(false);
-    window.history.pushState({}, '', '/recurtment');
-    setCurrentPath('/recurtment');
+    window.history.pushState({}, '', '/recruitment');
+    setCurrentPath('/recruitment');
     setIsLoadingRecruitment(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
@@ -48,7 +48,7 @@ function App() {
       targetHash = '#' + parts[1];
     }
 
-    const isTargetingRecruitment = cleanPath.toLowerCase().includes('recurtment') || cleanPath.toLowerCase().includes('recruitment');
+    const isTargetingRecruitment = cleanPath.toLowerCase().includes('recruitment') || cleanPath.toLowerCase().includes('recruitment');
 
     if (isTargetingRecruitment) {
       setShowDisclaimerModal(true);
@@ -76,7 +76,7 @@ function App() {
     const handlePopState = () => {
       const path = window.location.pathname.toLowerCase();
       const hash = window.location.hash.toLowerCase();
-      if (path.includes('recurtment') || path.includes('recruitment') || hash.includes('recurtment') || hash.includes('recruitment')) {
+      if (path.includes('recruitment') || path.includes('recruitment') || hash.includes('recruitment') || hash.includes('recruitment')) {
         setShowDisclaimerModal(true);
       } else {
         setShowDisclaimerModal(false);
@@ -123,7 +123,7 @@ function App() {
     };
   }, [currentPath, isLoadingRecruitment, showDisclaimerModal]);
 
-  const isRecruitmentRoute = currentPath === '/recurtment' || currentPath === '/recruitment';
+  const isRecruitmentRoute = currentPath === '/recruitment' || currentPath === '/recruitment';
 
   return (
     <div className="bg-[#0a0a0a] min-h-screen text-gray-100 selection:bg-primary/30">
@@ -146,7 +146,7 @@ function App() {
       <Navbar 
         currentPath={currentPath}
         onNavigate={navigate} 
-        onOpenModal={() => navigate('/recurtment')} 
+        onOpenModal={() => navigate('/recruitment')} 
       />
       
       <main>
@@ -159,7 +159,7 @@ function App() {
             <Platform />
             <Roadmap />
             <Team />
-            <Footer onOpenModal={() => navigate('/recurtment')} />
+            <Footer onOpenModal={() => navigate('/recruitment')} />
           </>
         )}
       </main>
@@ -187,7 +187,7 @@ function App() {
               <div className="flex gap-3 mt-4">
                 <button
                   onClick={() => {
-                    navigate('/recurtment');
+                    navigate('/recruitment');
                     setShowPopup(false);
                   }}
                   className="px-4 py-2 bg-primary text-black text-xs font-bold uppercase tracking-wider rounded hover:bg-white transition-colors duration-300 shadow-[0_0_15px_rgba(0,229,255,0.3)]"

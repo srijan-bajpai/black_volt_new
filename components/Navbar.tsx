@@ -9,7 +9,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ onOpenModal, onNavigate, currentPath = '/' }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const isRecruitmentPage = currentPath === '/recurtment' || currentPath === '/recruitment';
+  const isRecruitmentPage = currentPath === '/recruitment' || currentPath === '/recruitment';
 
   const navigateTo = (path: string, e?: React.MouseEvent) => {
     if (e) e.preventDefault();
@@ -50,7 +50,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenModal, onNavigate, currentPath = 
 
   const handleRecruitmentClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    navigateTo('/recurtment');
+    navigateTo('/recruitment');
     if (onOpenModal) {
       // optional modal callback support
     }
