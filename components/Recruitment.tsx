@@ -328,7 +328,7 @@ export const Recruitment: React.FC<RecruitmentProps> = ({ onNavigate }) => {
               </p>
               
               <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center">
-                <button
+                {/* <button
                   onClick={() => {
                     setIsSubmitted(false);
                     setCurrentStep(1);
@@ -337,7 +337,7 @@ export const Recruitment: React.FC<RecruitmentProps> = ({ onNavigate }) => {
                   className="px-6 py-3.5 border border-white/20 text-white rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-white/10 transition-colors"
                 >
                   Submit Another Response
-                </button>
+                </button> */}
                 <button
                   onClick={() => onNavigate ? onNavigate('/') : (window.location.href = '/')}
                   className="px-6 py-3.5 bg-primary text-black rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-white transition-colors shadow-[0_0_20px_rgba(0,229,255,0.3)]"
