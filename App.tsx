@@ -8,24 +8,34 @@ import Team from './components/Team';
 import Footer from './components/Footer';
 import Recruitment from './components/Recruitment';
 import LoadingScreen from './components/LoadingScreen';
+import DisclaimerModal from './components/DisclaimerModal';
 
 function App() {
-  const [currentPath, setCurrentPath] = useState<string>(() => {
-    const path = window.location.pathname.toLowerCase();
-    const hash = window.location.hash.toLowerCase();
-    if (path.includes('recurtment') || path.includes('recruitment') || hash.includes('recurtment') || hash.includes('recruitment')) {
-      return '/recurtment';
-    }
-    return '/';
-  });
-
-  const [isLoadingRecruitment, setIsLoadingRecruitment] = useState<boolean>(() => {
+  const [showDisclaimerModal, setShowDisclaimerModal] = useState<boolean>(() => {
     const path = window.location.pathname.toLowerCase();
     const hash = window.location.hash.toLowerCase();
     return path.includes('recurtment') || path.includes('recruitment') || hash.includes('recurtment') || hash.includes('recruitment');
   });
 
+  const [currentPath, setCurrentPath] = useState<string>('/');
+  const [isLoadingRecruitment, setIsLoadingRecruitment] = useState<boolean>(false);
   const [showPopup, setShowPopup] = useState(false);
+
+  const handleProceedToRecruitment = useCallback(() => {
+    setShowDisclaimerModal(false);
+    window.history.pushState({}, '', '/recurtment');
+    setCurrentPath('/recurtment');
+    setIsLoadingRecruitment(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
+  const handleGoHome = useCallback(() => {
+    setShowDisclaimerModal(false);
+    setIsLoadingRecruitment(false);
+    window.history.pushState({}, '', '/');
+    setCurrentPath('/');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   // Client-side router navigation handler with loading screen trigger
   const navigate = useCallback((targetPath: string) => {
@@ -41,14 +51,13 @@ function App() {
     const isTargetingRecruitment = cleanPath.toLowerCase().includes('recurtment') || cleanPath.toLowerCase().includes('recruitment');
 
     if (isTargetingRecruitment) {
-      cleanPath = '/recurtment';
-      setIsLoadingRecruitment(true);
-    } else if (cleanPath === '') {
-      cleanPath = '/';
-      setIsLoadingRecruitment(false);
-    } else {
-      setIsLoadingRecruitment(false);
+      setShowDisclaimerModal(true);
+      return;
     }
+
+    setShowDisclaimerModal(false);
+    setIsLoadingRecruitment(false);
+    cleanPath = cleanPath === '' ? '/' : cleanPath;
 
     window.history.pushState({}, '', cleanPath + targetHash);
     setCurrentPath(cleanPath);
@@ -68,9 +77,9 @@ function App() {
       const path = window.location.pathname.toLowerCase();
       const hash = window.location.hash.toLowerCase();
       if (path.includes('recurtment') || path.includes('recruitment') || hash.includes('recurtment') || hash.includes('recruitment')) {
-        setCurrentPath('/recurtment');
-        setIsLoadingRecruitment(true);
+        setShowDisclaimerModal(true);
       } else {
+        setShowDisclaimerModal(false);
         setCurrentPath('/');
         setIsLoadingRecruitment(false);
       }
@@ -101,9 +110,9 @@ function App() {
     const elements = document.querySelectorAll('.anim-element, .reveal-on-scroll');
     elements.forEach(el => observer.observe(el));
 
-    // Show recruitment popup after 1.5 seconds if on home page
+    // Show recruitment popup after 1.5 seconds if on home page and not viewing modal
     const timer = setTimeout(() => {
-      if (currentPath === '/' && !isLoadingRecruitment) {
+      if (currentPath === '/' && !isLoadingRecruitment && !showDisclaimerModal) {
         setShowPopup(true);
       }
     }, 1500);
@@ -112,13 +121,20 @@ function App() {
       observer.disconnect();
       clearTimeout(timer);
     };
-  }, [currentPath, isLoadingRecruitment]);
+  }, [currentPath, isLoadingRecruitment, showDisclaimerModal]);
 
   const isRecruitmentRoute = currentPath === '/recurtment' || currentPath === '/recruitment';
 
   return (
     <div className="bg-[#0a0a0a] min-h-screen text-gray-100 selection:bg-primary/30">
-      {/* High-Tech Loading Screen when entering recruitment */}
+      {/* Disclaimer Modal Before Loading Screen & Recruitment */}
+      <DisclaimerModal
+        isOpen={showDisclaimerModal}
+        onProceed={handleProceedToRecruitment}
+        onGoHome={handleGoHome}
+      />
+
+      {/* High-Tech Loading Screen when entering recruitment after accepting disclaimer */}
       {isLoadingRecruitment && (
         <LoadingScreen 
           onFinish={() => setIsLoadingRecruitment(false)} 
@@ -149,7 +165,7 @@ function App() {
       </main>
 
       {/* Floating Recruitment Alert Popup (shown only on landing page) */}
-      {showPopup && !isRecruitmentRoute && !isLoadingRecruitment && (
+      {showPopup && !isRecruitmentRoute && !isLoadingRecruitment && !showDisclaimerModal && (
         <div className="fixed bottom-6 right-6 z-40 max-w-sm w-[calc(100vw-3rem)] bg-[#0a0a0a]/90 backdrop-blur-md border border-primary/20 rounded-2xl p-5 shadow-[0_0_30px_rgba(0,229,255,0.15)] animate-in slide-in-from-bottom-5 duration-300">
           <button 
             onClick={() => setShowPopup(false)}
