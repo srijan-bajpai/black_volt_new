@@ -267,7 +267,7 @@ export const Recruitment: React.FC<RecruitmentProps> = ({ onNavigate }) => {
         'pageHistory': '0,1,2,3'
       };
 
-      // 1. Submit via hidden iframe (bypasses browser CORS & adblocker fetch restrictions)
+      // Submit via hidden iframe (bypasses browser CORS & adblocker fetch restrictions)
       const iframeId = 'gform_submission_frame';
       let iframe = document.getElementById(iframeId) as HTMLIFrameElement;
       if (!iframe) {
@@ -308,29 +308,6 @@ export const Recruitment: React.FC<RecruitmentProps> = ({ onNavigate }) => {
       setTimeout(() => {
         form.remove();
       }, 2000);
-
-      // 2. Parallel fetch attempt
-      try {
-        const urlParams = new URLSearchParams();
-        Object.entries(payload).forEach(([key, val]) => {
-          if (Array.isArray(val)) {
-            val.forEach(item => urlParams.append(key, item));
-          } else {
-            urlParams.append(key, val);
-          }
-        });
-
-        await fetch(GOOGLE_FORM_CONFIG.submitUrl, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: urlParams.toString(),
-        });
-      } catch (fetchErr) {
-        console.warn('Fetch fallback completed or silenced by browser CORS policy:', fetchErr);
-      }
 
       setIsSubmitted(true);
     } catch (err) {
