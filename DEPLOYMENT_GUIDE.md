@@ -1,6 +1,6 @@
 # Deployment guide
 
-This redesign is a static Vite site. The public page is crawler-readable HTML, and Three.js provides the optional interactive drone viewer. There is no app server or database in this build; the email and telephone links open the visitor's email or dialler.
+This redesign is a static Vite site. The public page is crawler-readable HTML, and Three.js provides the optional interactive vehicle viewers. There is no app server or database in this build; the email and telephone links open the visitor's email client or dialler.
 
 ## Local commands
 
@@ -11,10 +11,10 @@ pnpm check
 pnpm build
 ```
 
-The production output is `dist/`. `vercel.json` configures Vercel to install from the committed pnpm lockfile, build the site, and serve that directory.
+The production output is `dist/`. `vercel.json` configures the build and static output directory.
 
-## Release note
+## Release state
 
-The redesign is prepared on the review branch `redesign/blackvolt-2026-10`; it has not been merged to the default branch or published to `www.blackvolt.in`. Merging it may trigger the repository's Vercel production deployment, depending on the existing project settings.
+Merging approved changes to the default branch may trigger the repository's configured production deployment. Verify the deployment status with the hosting provider before confirming the live site has updated.
 
-All programme status statements are explicitly dated to the user-supplied *VAJRA-KAAL System Concept & Architecture*, revision 3.0, August 2026. Reconfirm the maturity snapshot before a production release if the programme has changed since that document.
+Programme maturity and performance statements are time-sensitive; confirm current status with the team before future releases.
