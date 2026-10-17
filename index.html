@@ -127,12 +127,12 @@
               <li><span>01</span><strong>Glide transit</strong><p>Buoyancy changes are intended to drive a sawtooth glide between areas.</p></li>
               <li><span>02</span><strong>Work on station</strong><p>Paired wingtip electric thrusters are specified for powered work at the stated design speed.</p></li>
               <li><span>03</span><strong>Surface &amp; report</strong><p>The concept brings the tail and centre-body hump above the surface for position and communications.</p></li>
-              <li><span>04</span><strong>Return &amp; recover</strong><p>The programme document defines a return-to-recovery phase; field validation remains ahead.</p></li>
+              <li><span>04</span><strong>Return &amp; recover</strong><p>A return-to-recovery phase is part of the mission concept; field validation remains ahead.</p></li>
             </ol>
           </div>
 
           <div class="dual-role">
-            <div class="dual-role-heading"><span class="eyebrow">One hull · two defined roles</span><h3>Free-swimming AUV.<br /><em>Tethered ROV.</em></h3><p>The programme defines the same hull for autonomous transit and survey, or for tethered close inspection from a support vessel. A tethered demonstration is a future step, not a capability demonstrated today.</p></div>
+            <div class="dual-role-heading"><span class="eyebrow">One hull · two defined roles</span><h3>Free-swimming AUV.<br /><em>Tethered ROV.</em></h3><p>The same hull is intended for autonomous transit and survey, or for tethered close inspection from a support vessel. A tethered demonstration remains a future step, not a demonstrated capability.</p></div>
             <article class="role-panel role-panel-auv"><span class="role-index">MODE A / STORED ENERGY</span><h4>AUV</h4><p>Free-swimming concept for transit and survey. The endurance aim depends on energy storage and onboard loads.</p><span class="role-status">Role defined · wet demonstration not yet completed</span></article>
             <article class="role-panel role-panel-rov"><span class="role-index">MODE B / SUPPORT VESSEL</span><h4>ROV</h4><p>Tethered concept for close inspection, identification and intervention. Tether, winch and connector design remain future work.</p><span class="role-status">Role defined · tethered demonstration is future</span></article>
           </div>
@@ -147,7 +147,7 @@
                 <li><strong>Autonomy &amp; operator console</strong><span>ROS 2 autonomy work ongoing; NavDeck is in development.</span></li>
               </ul></div>
               <div class="progress-column progress-next"><span class="progress-label">NEXT</span><ul>
-                <li><strong>Validate the CFD method</strong><span>Reproduce the published SUBOFF reference before treating V4 CFD values as validated.</span></li>
+                <li><strong>Validate the CFD method</strong><span>Reproduce the SUBOFF baseline before treating V4 CFD values as validated.</span></li>
                 <li><strong>Close design work</strong><span>V4 CFD, pressure-housing sizing and the oil-bladder bench rig.</span></li>
                 <li><strong>Move autonomy into simulation</strong><span>V4 simulation model and software-in-the-loop missions.</span></li>
                 <li><strong>Test in water</strong><span>No AUV hardware has been wet-tested yet.</span></li>
@@ -157,7 +157,7 @@
 
           <div class="future-aim">
             <div><span class="future-label">FUTURE END-STATE AIM · NOT DEMONSTRATED</span><h3>About <em>45 days</em> at sea.<br />About <em>1,000 nautical miles.</em></h3></div>
-            <p>The programme document describes these as future aims for an intelligence, surveillance and reconnaissance mission. They are not measured endurance or range. The energy budget has not yet closed this target. Lithium-ion is selected; a hydrogen fuel cell remains an experimental option.</p>
+            <p>About 45 days and 1,000 nautical miles are future end-state aims for an intelligence, surveillance and reconnaissance mission—not measured endurance or range. The energy budget has not yet closed this target. Lithium-ion is selected; a hydrogen fuel cell remains experimental.</p>
           </div>
         </div>
       </section>
@@ -167,27 +167,27 @@
           <div class="chapter-topline"><span>02 / Air systems</span><span>VAJRA-KAAL interceptor family · concept in design</span></div>
           <div class="air-heading">
             <div><p class="eyebrow"><span class="section-number">02</span> Interceptors · concept renders</p><h2 id="interceptor-title">A defined role.<br /><em>A recognisable form.</em></h2></div>
-            <p class="section-lede">The source PDF shows a compact central fuselage with four raised nacelle pylons. The interactive reconstruction follows that concept render; it is not a configured aircraft, engineering drawing, or flight article.</p>
+            <p class="section-lede">The interceptor-family concept uses a compact central fuselage with four raised nacelle pylons. This interactive reconstruction illustrates the concept; it is not a configured aircraft, engineering drawing, or flight article.</p>
           </div>
           <div class="interceptor-showcase">
             <div class="interceptor-viewer-column">
-              <div class="viewer-head"><span>Family concept / source p. 21</span><span>Interactive reconstruction</span></div>
+              <div class="viewer-head"><span>Family concept / 3D model</span><span>Interactive reconstruction</span></div>
               <div class="viewer-stage interceptor-stage" id="interceptor-stage">
                 <div class="interceptor-floor-lines" aria-hidden="true"></div>
-                <img class="viewer-fallback interceptor-fallback" src="/assets/interceptor-concept.png" alt="The VAJRA-KAAL PDF's interceptor-family concept render: a central body supported by four raised nacelle pylons." />
-                <canvas id="interceptor-canvas" role="img" aria-label="Interactive Three.js reconstruction of the central-body, four-pylon interceptor concept shown in the PDF. Drag to rotate." tabindex="0"></canvas>
+                <img class="viewer-fallback interceptor-fallback" src="/assets/interceptor-concept.png" alt="Illustrative VAJRA-KAAL interceptor-family concept with a central body and four raised nacelle pylons." />
+                <canvas id="interceptor-canvas" role="img" aria-label="Interactive Three.js model of the central-body, four-pylon interceptor concept. Drag to rotate." tabindex="0"></canvas>
                 <div class="viewer-caption"><span class="micro-label">CONCEPT · IN DESIGN · ILLUSTRATIVE</span><h3>Interceptor family concept</h3><p>Central body · four raised nacelles · no fixed-wing airframe in this reconstruction.</p></div>
               </div>
               <div class="viewer-controls"><span>Drag to rotate · scroll to zoom</span><button class="viewer-reset" type="button" data-view-reset="interceptor">Reset view</button><span id="interceptor-view-status" aria-live="polite">Illustrative interceptor model</span></div>
             </div>
-            <figure class="source-render">
-              <img src="/assets/interceptor-concept.png" alt="Original concept rendering from the supplied VAJRA-KAAL PDF, showing its central body and four raised nacelle pylons." loading="lazy" />
-              <figcaption><span class="source-label">SOURCE / CONCEPT</span><strong>Rendered concept, not the bench article</strong><p>The PDF distinguishes this design-in-progress render from the printed interceptor airframes shown below.</p></figcaption>
+            <figure class="concept-render">
+              <img src="/assets/interceptor-concept.png" alt="Interceptor-family concept render with a central body and four raised nacelle pylons." loading="lazy" />
+              <figcaption><span class="concept-label">CONCEPT / RENDER</span><strong>Rendered concept, not the bench article</strong><p>This design-in-progress render is distinct from the printed interceptor airframes shown below.</p></figcaption>
             </figure>
           </div>
 
           <div class="interceptor-roles">
-            <div class="roles-intro"><p class="eyebrow">Two concept roles</p><h3>Different profiles.<br /><em>One family.</em></h3><p>The source describes roles and effectors, not validated aircraft performance. Neither variant is flight-tested.</p></div>
+            <div class="roles-intro"><p class="eyebrow">Two concept roles</p><h3>Different profiles.<br /><em>One family.</em></h3><p>The concepts define different roles and intended effectors; neither variant is flight-tested.</p></div>
             <article class="variant-card"><span class="variant-mark">S</span><div><span class="micro-label">ROLE 01 / CAPTURE</span><h4>Sprint</h4><p>High speed, short endurance, vertical launch and dash for high-closure threats near an asset. The stated concept is capture by net or forced landing, designed to be recoverable and reusable.</p><span class="variant-footer">Concept role · no validated performance figures</span></div></article>
             <article class="variant-card"><span class="variant-mark">P</span><div><span class="micro-label">ROLE 02 / IMPACT</span><h4>Picket</h4><p>Lower speed, longer endurance and station-holding over a sector where launch points are sparse. The stated concept is direct kinetic interception.</p><span class="variant-footer">Concept role · no validated performance figures</span></div></article>
           </div>
@@ -207,7 +207,7 @@
           <div class="chapter-topline chapter-topline-light"><span>03 / Integrated counter-UAS</span><span>VAJRA-KAAL · System concept</span></div>
           <div class="vajra-heading">
             <div><p class="eyebrow"><span class="section-number">03</span> System architecture · design intent</p><h2 id="vajra-title">VAJRA-KAAL.<br /><em>Five layers, one proposed system.</em></h2></div>
-            <div class="vajra-intro"><p>VAJRA-KAAL is documented as an indigenous, AI-native counter-UAS ecosystem. Its architecture connects sensing, AI fusion, operator command, response and a distributed network. Most layers remain design intent—not deployed capability.</p><span class="status-chip">Research &amp; early prototyping · no operational capability claimed</span></div>
+            <div class="vajra-intro"><p>VAJRA-KAAL is an indigenous, AI-native counter-UAS ecosystem. Its architecture connects sensing, AI fusion, operator command, response and a distributed network. Most layers remain design intent—not deployed capability.</p><span class="status-chip">Research &amp; early prototyping · no operational capability claimed</span></div>
           </div>
 
           <div class="architecture-list">
@@ -220,7 +220,7 @@
           <p class="architecture-caveat"><strong>Design intent is not a fielded system.</strong> No validated performance figures are stated. The layered architecture describes a proposed integration path.</p>
 
           <div class="vajra-proof">
-            <div class="proof-heading"><p class="eyebrow">What exists today</p><h3>Evidence from<br /><em>the workbench.</em></h3><p>These images are BlackVolt's own prototypes from the supplied PDF. They show laboratory hardware—not an operational counter-UAS deployment.</p></div>
+            <div class="proof-heading"><p class="eyebrow">What exists today</p><h3>Evidence from<br /><em>the workbench.</em></h3><p>These images show BlackVolt's own prototypes in the laboratory—not an operational counter-UAS deployment.</p></div>
             <div class="proof-gallery">
               <figure class="proof-large"><img src="/assets/hardware/testbed-detection-build.jpg" alt="BlackVolt's multirotor detection testbed carrying single-board compute and an EO camera, with a manual RC link retained." loading="lazy" /><figcaption><span>Current testbed · EO + onboard compute</span>Detection build / manual RC retained</figcaption></figure>
               <figure><img src="/assets/hardware/testbed-sensor-mast.jpg" alt="BlackVolt's multirotor testbed with an EO camera mounted above the rotor disc on a sensor mast." loading="lazy" /><figcaption><span>Current testbed · sensor layout</span>EO camera on an elevated mast</figcaption></figure>
@@ -229,7 +229,7 @@
             </div>
           </div>
 
-          <div class="status-boundary"><span class="boundary-mark" aria-hidden="true">!</span><div><strong>Current boundary · August 2026</strong><p>Documented architecture; a multirotor EO-camera testbed with onboard compute; printed interceptor airframes validated for bench layout and fit; ML development underway. No powered or flown interceptor, no multi-sensor fusion, no jamming or spoofing hardware, no Battlefield OS build, no networked nodes, no launch container, and no validated performance figures.</p></div></div>
+          <div class="status-boundary"><span class="boundary-mark" aria-hidden="true">!</span><div><strong>Current boundary · August 2026</strong><p>VAJRA-KAAL remains a system concept. Current work includes a multirotor EO-camera testbed with onboard compute; printed interceptor airframes validated for bench layout and fit; and ML development. There is no powered or flown interceptor, radar, RF or acoustic sensing, multi-sensor fusion, jamming or spoofing hardware, Battlefield OS build, networked nodes, launch container, or validated performance figures.</p></div></div>
         </div>
       </section>
 
@@ -238,7 +238,7 @@
         <div class="company-copy">
           <p class="eyebrow">Engineering-led · Chennai, India</p>
           <h2 id="company-title">Built around<br /><em>systems thinking.</em></h2>
-          <p>BlackVolt Technologies is an engineering-led defence technology company incubated at V-NEST, VIT Chennai. The documented programmes span autonomous underwater systems, airframes, avionics and software.</p>
+          <p>BlackVolt Technologies is an engineering-led defence technology company incubated at V-NEST, VIT Chennai. The team's work spans autonomous underwater systems, airframes, avionics and software.</p>
           <div class="leadership-block">
             <div class="leadership-heading"><p class="eyebrow">Leadership</p><span>Co-founders</span></div>
             <div class="leadership-grid" aria-label="BlackVolt co-founders">
@@ -262,7 +262,7 @@
               </article>
             </div>
           </div>
-          <div class="parallel-programme"><span class="micro-label">ALSO NAMED IN THE SOURCE DOCUMENT</span><strong>CubeSat programme</strong><p>Listed as an early-stage programme sharing the autonomy and systems-engineering base. No name, orbit or performance specification is claimed here.</p></div>
+          <div class="parallel-programme"><span class="micro-label">EARLY-STAGE PROGRAMME</span><strong>CubeSat programme</strong><p>An early-stage programme sharing the autonomy and systems-engineering base. No name, orbit or performance specification is claimed.</p></div>
         </div>
       </section>
 

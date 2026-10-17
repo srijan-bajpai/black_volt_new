@@ -30,7 +30,7 @@ function mountViewer(config: ViewerConfig): void {
     renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
   } catch (error) {
     stage.classList.add('viewer-failed');
-    liveStatus.textContent = 'Interactive 3D is unavailable; the source illustration remains visible.';
+    liveStatus.textContent = 'Interactive 3D is unavailable; the concept illustration remains visible.';
     console.info(`${config.name} viewer unavailable; showing its static illustration.`, error);
     return;
   }
