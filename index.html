@@ -1,75 +1,287 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!doctype html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blackvolt Technologies | Autonomous Underwater Systems</title>
-    <link rel="icon" type="image/png" href="assets/logo.png" />
+    <meta name="theme-color" content="#eeeade" />
+    <meta name="description" content="BlackVolt Technologies develops a long-endurance autonomous underwater vehicle and VAJRA-KAAL, an indigenous counter-UAS system concept. See the design basis, real programme status and next steps." />
+    <meta name="keywords" content="BlackVolt Technologies, long-endurance AUV, autonomous underwater vehicle, VAJRA-KAAL, counter-UAS, V-NEST, VIT Chennai" />
+    <link rel="canonical" href="https://www.blackvolt.in/" />
+    <link rel="icon" type="image/png" href="/assets/blackvolt-mark.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              primary: "#00E5FF", // Electric Cyan
-              "primary-dark": "#00B8CC",
-              secondary: "#00FFFF", // Neon-Cyan
-              "secondary-dark": "#00CED1",
-              "background-light": "#050505",
-              "background-dark": "#0a0a0a", // Strict Void Black
-              "surface-dark": "#121212",
-              "glass-border": "rgba(255, 255, 255, 0.08)",
-              "glass-bg": "rgba(10, 10, 10, 0.6)",
-            },
-            fontFamily: {
-              sans: ["Inter", "sans-serif"],
-              display: ["Space Grotesk", "sans-serif"],
-              mono: ["Courier New", "Courier", "monospace"],
-            },
-            backgroundImage: {
-              "grid-pattern":
-                "radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px)",
-              "glow-radial":
-                "radial-gradient(circle at center, var(--tw-gradient-stops))",
-            },
-          },
-        },
-      };
-    </script>
-    <script>
-      // Ensure the JavaScript code is complete and properly structured
-      const exampleObject = {
-        key: "value",
-        nested: {
-          anotherKey: "anotherValue",
-        },
-      };
-    </script>
-      <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
-</head>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="BlackVolt Technologies | Autonomy at Sea &amp; in the Air" />
+    <meta property="og:description" content="A long-endurance AUV programme and VAJRA-KAAL, a counter-UAS system concept—presented with clear design and maturity boundaries." />
+    <meta property="og:url" content="https://www.blackvolt.in/" />
+    <meta property="og:site_name" content="BlackVolt Technologies" />
+    <meta property="og:image" content="https://www.blackvolt.in/assets/blackvolt-mark.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="BlackVolt Technologies | Autonomy at Sea &amp; in the Air" />
+    <meta name="twitter:description" content="A long-endurance AUV programme and VAJRA-KAAL, a counter-UAS system concept." />
+    <meta name="twitter:image" content="https://www.blackvolt.in/assets/blackvolt-mark.png" />
+    <title>BlackVolt Technologies | Autonomy at Sea &amp; in the Air</title>
+    <script>document.documentElement.classList.add('js');</script>
+  </head>
   <body>
-    <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" id="top">
+      <div class="header-inner">
+        <a class="brand" href="#top" aria-label="BlackVolt Technologies home">
+          <img src="/assets/blackvolt-mark.png" alt="" width="42" height="42" />
+          <span class="brand-wordmark">BLACKVOLT<span>TECHNOLOGIES</span></span>
+        </a>
+        <nav class="desktop-nav" aria-label="Primary navigation">
+          <a href="#auv">AUV <span>01</span></a>
+          <a href="#interceptors">Air systems <span>02</span></a>
+          <a href="#vajra">VAJRA-KAAL <span>03</span></a>
+          <a href="#company">Company</a>
+        </nav>
+        <a class="header-cta" href="#contact">Talk to the team <span aria-hidden="true">↗</span></a>
+        <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-nav">
+          <span></span><span></span>
+        </button>
+      </div>
+      <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation" hidden>
+        <a href="#auv">Long-Endurance AUV <span>01</span></a>
+        <a href="#interceptors">Interceptor family <span>02</span></a>
+        <a href="#vajra">VAJRA-KAAL <span>03</span></a>
+        <a href="#company">Company <span>04</span></a>
+        <a href="#contact">Contact <span>↗</span></a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero section-shell" aria-labelledby="hero-title">
+        <div class="hero-topline">
+          <span>BLACKVOLT TECHNOLOGIES</span>
+          <span>Defence engineering · V-NEST, VIT Chennai</span>
+        </div>
+        <div class="hero-layout">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyebrow-bar" aria-hidden="true"></span> Autonomous systems · Sea / air</p>
+            <h1 id="hero-title">Autonomy at sea.<br /><em>Response in the air.</em></h1>
+            <p class="hero-lede">BlackVolt is developing a long-endurance autonomous underwater vehicle and VAJRA-KAAL, an indigenous counter-UAS system concept. Each programme is shown at its actual stage—not as an operational capability.</p>
+            <div class="hero-actions">
+              <a class="button button-dark" href="#auv">Explore the AUV <span aria-hidden="true">↓</span></a>
+              <a class="text-link" href="#vajra">See VAJRA-KAAL <span aria-hidden="true">↗</span></a>
+            </div>
+          </div>
+          <aside class="hero-index" aria-label="Programme sequence">
+            <div class="index-rule"><span></span><span>Programme sequence</span></div>
+            <div class="index-entry"><span>01</span><div><strong>Undersea vehicle</strong><small>CAD · analysis · software</small></div></div>
+            <div class="index-entry"><span>02</span><div><strong>Interceptor family</strong><small>Concept · bench airframes</small></div></div>
+            <div class="index-entry"><span>03</span><div><strong>VAJRA-KAAL</strong><small>Counter-UAS · system concept</small></div></div>
+            <p class="index-note">Different missions.<br />A common engineering discipline.</p>
+          </aside>
+        </div>
+        <div class="hero-footline">
+          <span><i aria-hidden="true"></i> Engineering-led defence technology</span>
+          <span>Chennai, India</span>
+          <span>Current programme snapshots · 2026</span>
+        </div>
+      </section>
+
+      <section class="chapter auv-chapter" id="auv" aria-labelledby="auv-title">
+        <div class="section-shell">
+          <div class="chapter-topline"><span>01 / Undersea autonomy</span><span>Long-Endurance Autonomous Underwater Vehicle</span></div>
+          <div class="auv-intro">
+            <div class="auv-copy">
+              <p class="eyebrow"><span class="section-number">01</span> Long-endurance AUV · V4 concept</p>
+              <h2 id="auv-title">A blended hull.<br /><em>A different way to travel.</em></h2>
+              <p class="section-lede">The AUV is designed around a batoid-inspired blended-wing body. Buoyancy-driven glide is intended for transit; paired electric thrusters are intended for work on station. The whole planform generates lift—there are no separate aircraft-style wings attached to a torpedo hull.</p>
+              <div class="status-stamp"><span class="stamp-dot" aria-hidden="true"></span><div><strong>Design, analysis &amp; simulation</strong><span>No hardware has been wet-tested.</span></div></div>
+              <a class="inline-link" href="#auv-progress">Read the current programme status <span aria-hidden="true">↓</span></a>
+            </div>
+            <div class="auv-visual-column">
+              <div class="viewer-head"><span>V4 / Blended-wing-body form</span><span>Illustrative geometry · not CAD</span></div>
+              <div class="viewer-stage auv-stage" id="auv-stage">
+                <div class="depth-lines" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+                <svg class="viewer-fallback auv-fallback" id="auv-fallback" viewBox="0 0 720 420" role="img" aria-label="Illustrative planform silhouette of a batoid-inspired blended-wing underwater vehicle">
+                  <title>Illustrative blended-wing AUV planform</title>
+                  <path d="M360 40 C392 70 416 100 433 133 L586 186 L623 218 L528 228 C494 270 460 310 415 339 L360 382 L305 339 C260 310 226 270 192 228 L97 218 L134 186 L287 133 C304 100 328 70 360 40Z" fill="rgba(196,210,198,.64)" stroke="#e3e7d9" stroke-width="3" />
+                  <path d="M360 74 L360 375 M302 125 L360 170 L418 125 M205 225 L360 195 L515 225" fill="none" stroke="#c87250" stroke-width="2" opacity=".8" />
+                  <circle cx="360" cy="92" r="8" fill="#c87250" />
+                </svg>
+                <canvas id="auv-canvas" role="img" aria-label="Interactive Three.js visualization of the AUV's blended-wing-body concept. Drag to rotate the model." tabindex="0"></canvas>
+                <div class="viewer-crosshair" aria-hidden="true"><span></span></div>
+                <div class="viewer-callout callout-span"><span>4,800 mm</span><small>CAD span</small></div>
+                <div class="viewer-caption"><span class="micro-label">PROGRAMME MODEL · NOT TO SCALE</span><h3>V4 blended-wing body</h3><p>Rounded nose · swept curved leading edge · squared tips · central tail pod.</p></div>
+              </div>
+              <div class="viewer-controls"><span>Drag to rotate · scroll to zoom</span><button class="viewer-reset" type="button" data-view-reset="auv">Reset view</button><span id="auv-view-status" aria-live="polite">Illustrative AUV model</span></div>
+            </div>
+          </div>
+
+          <div class="spec-strip" aria-label="AUV design basis">
+            <div class="spec-cell"><strong>4,800 <small>mm</small></strong><span>Span · CAD</span></div>
+            <div class="spec-cell"><strong>2,925 <small>mm</small></strong><span>Overall length · CAD</span></div>
+            <div class="spec-cell"><strong>240 <small>m</small></strong><span>Operational depth · requirement</span></div>
+            <div class="spec-cell"><strong>1.5 <small>m/s</small></strong><span>On-station speed · requirement</span></div>
+          </div>
+          <p class="spec-note">These are CAD dimensions and programme requirements, not measured performance. The current results are from design, analysis and simulation only.</p>
+
+          <div class="auv-operating">
+            <div class="subhead-block"><p class="eyebrow">Concept of operations</p><h3>Glide. Work. Report.<br /><em>Return to recover.</em></h3></div>
+            <ol class="mission-sequence">
+              <li><span>01</span><strong>Glide transit</strong><p>Buoyancy changes are intended to drive a sawtooth glide between areas.</p></li>
+              <li><span>02</span><strong>Work on station</strong><p>Paired wingtip electric thrusters are specified for powered work at the stated design speed.</p></li>
+              <li><span>03</span><strong>Surface &amp; report</strong><p>The concept brings the tail and centre-body hump above the surface for position and communications.</p></li>
+              <li><span>04</span><strong>Return &amp; recover</strong><p>A return-to-recovery phase is part of the mission concept; field validation remains ahead.</p></li>
+            </ol>
+          </div>
+
+          <div class="dual-role">
+            <div class="dual-role-heading"><span class="eyebrow">One hull · two defined roles</span><h3>Free-swimming AUV.<br /><em>Tethered ROV.</em></h3><p>The same hull is intended for autonomous transit and survey, or for tethered close inspection from a support vessel. A tethered demonstration remains a future step, not a demonstrated capability.</p></div>
+            <article class="role-panel role-panel-auv"><span class="role-index">MODE A / STORED ENERGY</span><h4>AUV</h4><p>Free-swimming concept for transit and survey. The endurance aim depends on energy storage and onboard loads.</p><span class="role-status">Role defined · wet demonstration not yet completed</span></article>
+            <article class="role-panel role-panel-rov"><span class="role-index">MODE B / SUPPORT VESSEL</span><h4>ROV</h4><p>Tethered concept for close inspection, identification and intervention. Tether, winch and connector design remain future work.</p><span class="role-status">Role defined · tethered demonstration is future</span></article>
+          </div>
+
+          <div class="progress-block" id="auv-progress">
+            <div class="progress-heading"><div><p class="eyebrow">Where the programme stands</p><h3>From a V4 hull to<br /><em>a wet-test gate.</em></h3></div><p class="progress-date">AUV status snapshot<br /><strong>29 September 2026</strong></p></div>
+            <div class="progress-columns">
+              <div class="progress-column progress-current"><span class="progress-label">CURRENT</span><ul>
+                <li><strong>V4 hull geometry</strong><span>Watertight parametric loft through 25 sections completed in CAD.</span></li>
+                <li><strong>Structure &amp; buoyancy</strong><span>Two structural campaigns complete; a free-flooding fairing and oil-bladder system selected.</span></li>
+                <li><strong>Route planning</strong><span>Energy-aware route-planning pipeline complete.</span></li>
+                <li><strong>Autonomy &amp; operator console</strong><span>ROS 2 autonomy work ongoing; NavDeck is in development.</span></li>
+              </ul></div>
+              <div class="progress-column progress-next"><span class="progress-label">NEXT</span><ul>
+                <li><strong>Validate the CFD method</strong><span>Reproduce the SUBOFF baseline before treating V4 CFD values as validated.</span></li>
+                <li><strong>Close design work</strong><span>V4 CFD, pressure-housing sizing and the oil-bladder bench rig.</span></li>
+                <li><strong>Move autonomy into simulation</strong><span>V4 simulation model and software-in-the-loop missions.</span></li>
+                <li><strong>Test in water</strong><span>No AUV hardware has been wet-tested yet.</span></li>
+              </ul></div>
+            </div>
+          </div>
+
+          <div class="future-aim">
+            <div><span class="future-label">FUTURE END-STATE AIM · NOT DEMONSTRATED</span><h3>About <em>45 days</em> at sea.<br />About <em>1,000 nautical miles.</em></h3></div>
+            <p>About 45 days and 1,000 nautical miles are future end-state aims for an intelligence, surveillance and reconnaissance mission—not measured endurance or range. The energy budget has not yet closed this target. Lithium-ion is selected; a hydrogen fuel cell remains experimental.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter air-chapter" id="interceptors" aria-labelledby="interceptor-title">
+        <div class="section-shell">
+          <div class="chapter-topline"><span>02 / Air systems</span><span>VAJRA-KAAL interceptor family · concept in design</span></div>
+          <div class="air-heading">
+            <div><p class="eyebrow"><span class="section-number">02</span> Interceptors · concept renders</p><h2 id="interceptor-title">A defined role.<br /><em>A recognisable form.</em></h2></div>
+            <p class="section-lede">The interceptor-family concept uses a compact central fuselage with four raised nacelle pylons. This interactive reconstruction illustrates the concept; it is not a configured aircraft, engineering drawing, or flight article.</p>
+          </div>
+          <div class="interceptor-showcase">
+            <div class="interceptor-viewer-column">
+              <div class="viewer-head"><span>Family concept / 3D model</span><span>Interactive reconstruction</span></div>
+              <div class="viewer-stage interceptor-stage" id="interceptor-stage">
+                <div class="interceptor-floor-lines" aria-hidden="true"></div>
+                <img class="viewer-fallback interceptor-fallback" src="/assets/interceptor-concept.png" alt="Illustrative VAJRA-KAAL interceptor-family concept with a central body and four raised nacelle pylons." />
+                <canvas id="interceptor-canvas" role="img" aria-label="Interactive Three.js model of the central-body, four-pylon interceptor concept. Drag to rotate." tabindex="0"></canvas>
+                <div class="viewer-caption"><span class="micro-label">CONCEPT · IN DESIGN · ILLUSTRATIVE</span><h3>Interceptor family concept</h3><p>Central body · four raised nacelles · no fixed-wing airframe in this reconstruction.</p></div>
+              </div>
+              <div class="viewer-controls"><span>Drag to rotate · scroll to zoom</span><button class="viewer-reset" type="button" data-view-reset="interceptor">Reset view</button><span id="interceptor-view-status" aria-live="polite">Illustrative interceptor model</span></div>
+            </div>
+            <figure class="concept-render">
+              <img src="/assets/interceptor-concept.png" alt="Interceptor-family concept render with a central body and four raised nacelle pylons." loading="lazy" />
+              <figcaption><span class="concept-label">CONCEPT / RENDER</span><strong>Rendered concept, not the bench article</strong><p>This design-in-progress render is distinct from the printed interceptor airframes shown below.</p></figcaption>
+            </figure>
+          </div>
+
+          <div class="interceptor-roles">
+            <div class="roles-intro"><p class="eyebrow">Two concept roles</p><h3>Different profiles.<br /><em>One family.</em></h3><p>The concepts define different roles and intended effectors; neither variant is flight-tested.</p></div>
+            <article class="variant-card"><span class="variant-mark">S</span><div><span class="micro-label">ROLE 01 / CAPTURE</span><h4>Sprint</h4><p>High speed, short endurance, vertical launch and dash for high-closure threats near an asset. The stated concept is capture by net or forced landing, designed to be recoverable and reusable.</p><span class="variant-footer">Concept role · no validated performance figures</span></div></article>
+            <article class="variant-card"><span class="variant-mark">P</span><div><span class="micro-label">ROLE 02 / IMPACT</span><h4>Picket</h4><p>Lower speed, longer endurance and station-holding over a sector where launch points are sparse. The stated concept is direct kinetic interception.</p><span class="variant-footer">Concept role · no validated performance figures</span></div></article>
+          </div>
+
+          <div class="air-evidence">
+            <div class="evidence-heading"><p class="eyebrow">The bench article is different</p><h3>Printed in-house.<br /><em>Not a flight article.</em></h3><p>The current airframe is a tail-sitter layout with four wing-tip nacelles and a nose sensor aperture. The printed structure was used for layout, structure and fit validation. Propulsion and avionics are not fitted; it has not flown.</p></div>
+            <div class="airframe-photos">
+              <figure><img src="/assets/hardware/interceptor-airframe-top.jpg" alt="BlackVolt's printed interceptor airframe prototype on a laboratory table, viewed from above." loading="lazy" /><figcaption><span>Current prototype · August 2026</span>Printed airframe / layout and structure</figcaption></figure>
+              <figure><img src="/assets/hardware/interceptor-airframe-angle.jpg" alt="BlackVolt's printed interceptor airframe prototype from an oblique angle, showing the fuselage and wing-tip nacelles." loading="lazy" /><figcaption><span>Current prototype · August 2026</span>Four wing-tip nacelles / no propulsion fitted</figcaption></figure>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="chapter vajra-chapter" id="vajra" aria-labelledby="vajra-title">
+        <div class="section-shell">
+          <div class="chapter-topline chapter-topline-light"><span>03 / Integrated counter-UAS</span><span>VAJRA-KAAL · System concept</span></div>
+          <div class="vajra-heading">
+            <div><p class="eyebrow"><span class="section-number">03</span> System architecture · design intent</p><h2 id="vajra-title">VAJRA-KAAL.<br /><em>Five layers, one proposed system.</em></h2></div>
+            <div class="vajra-intro"><p>VAJRA-KAAL is an indigenous, AI-native counter-UAS ecosystem. Its architecture connects sensing, AI fusion, operator command, response and a distributed network. Most layers remain design intent—not deployed capability.</p><span class="status-chip">Research &amp; early prototyping · no operational capability claimed</span></div>
+          </div>
+
+          <div class="architecture-list">
+            <article class="architecture-row"><span class="architecture-index">01</span><div><h3>Detection</h3><p>Planned integration of radar, EO/IR, RF and acoustic sensors through a hardware-agnostic interface. Radar, RF and acoustic sensing are not currently built.</p></div><span class="layer-state">Planned layer</span></article>
+            <article class="architecture-row"><span class="architecture-index">02</span><div><h3>AI fusion &amp; intelligence</h3><p>The proposed AI Core is intended to correlate tracks, classify contacts and recommend a response. ML work is underway; multi-sensor fusion is not built.</p></div><span class="layer-state">Work in progress</span></article>
+            <article class="architecture-row"><span class="architecture-index">03</span><div><h3>Command</h3><p>A proposed Battlefield Operating System would present a common operating picture and operator interface. No Battlefield OS build currently exists.</p></div><span class="layer-state">Not yet built</span></article>
+            <article class="architecture-row"><span class="architecture-index">04</span><div><h3>Engagement</h3><p>Design intent is electronic countermeasures first, followed by an interceptor when required. Jamming and spoofing hardware is not built.</p></div><span class="layer-state">Concept in design</span></article>
+            <article class="architecture-row"><span class="architecture-index">05</span><div><h3>Distributed network</h3><p>Sensor posts, launch containers and command vehicles are proposed elements. Networked nodes and launch containers are not fielded or integrated.</p></div><span class="layer-state">Future integration</span></article>
+          </div>
+          <p class="architecture-caveat"><strong>Design intent is not a fielded system.</strong> No validated performance figures are stated. The layered architecture describes a proposed integration path.</p>
+
+          <div class="vajra-proof">
+            <div class="proof-heading"><p class="eyebrow">What exists today</p><h3>Evidence from<br /><em>the workbench.</em></h3><p>These images show BlackVolt's own prototypes in the laboratory—not an operational counter-UAS deployment.</p></div>
+            <div class="proof-gallery">
+              <figure class="proof-large"><img src="/assets/hardware/testbed-detection-build.jpg" alt="BlackVolt's multirotor detection testbed carrying single-board compute and an EO camera, with a manual RC link retained." loading="lazy" /><figcaption><span>Current testbed · EO + onboard compute</span>Detection build / manual RC retained</figcaption></figure>
+              <figure><img src="/assets/hardware/testbed-sensor-mast.jpg" alt="BlackVolt's multirotor testbed with an EO camera mounted above the rotor disc on a sensor mast." loading="lazy" /><figcaption><span>Current testbed · sensor layout</span>EO camera on an elevated mast</figcaption></figure>
+              <figure><img src="/assets/hardware/testbed-avionics-layout.jpg" alt="The testbed's flight controller, companion compute and RC receiver arranged on a central plate." loading="lazy" /><figcaption><span>Current testbed · avionics</span>Detection runs off the flight-critical path</figcaption></figure>
+              <figure><img src="/assets/hardware/testbed-integration.jpg" alt="BlackVolt's multirotor detection-testbed airframe, wiring and avionics being assembled in the laboratory." loading="lazy" /><figcaption><span>Current testbed · integration</span>Hand-built laboratory integration</figcaption></figure>
+            </div>
+          </div>
+
+          <div class="status-boundary"><span class="boundary-mark" aria-hidden="true">!</span><div><strong>Current boundary · August 2026</strong><p>VAJRA-KAAL remains a system concept. Current work includes a multirotor EO-camera testbed with onboard compute; printed interceptor airframes validated for bench layout and fit; and ML development. There is no powered or flown interceptor, radar, RF or acoustic sensing, multi-sensor fusion, jamming or spoofing hardware, Battlefield OS build, networked nodes, launch container, or validated performance figures.</p></div></div>
+        </div>
+      </section>
+
+      <section class="company-section section-shell" id="company" aria-labelledby="company-title">
+        <div class="company-rail"><span>ABOUT / BLACKVOLT</span><img src="/assets/blackvolt-mark.png" alt="" loading="lazy" /></div>
+        <div class="company-copy">
+          <p class="eyebrow">Engineering-led · Chennai, India</p>
+          <h2 id="company-title">Built around<br /><em>systems thinking.</em></h2>
+          <p>BlackVolt Technologies is an engineering-led defence technology company incubated at V-NEST, VIT Chennai. The team's work spans autonomous underwater systems, airframes, avionics and software.</p>
+          <div class="leadership-block">
+            <div class="leadership-heading"><p class="eyebrow">Leadership</p><span>Co-founders</span></div>
+            <div class="leadership-grid" aria-label="BlackVolt co-founders">
+              <article class="leader-card">
+                <img src="/assets/team/garv-pathak.webp" alt="Portrait of Garv Pathak" width="112" height="112" loading="lazy" />
+                <div class="leader-copy">
+                  <p class="leader-role">Co-Founder &amp; CEO — AI Systems</p>
+                  <h3>Garv Pathak</h3>
+                  <p class="leader-bio">Leads overall system architecture, AI integration, and long-term technical direction.</p>
+                  <a class="leader-link" href="https://www.linkedin.com/in/garv-pathak/" target="_blank" rel="noopener noreferrer" aria-label="Garv Pathak on LinkedIn">LinkedIn <span aria-hidden="true">↗</span></a>
+                </div>
+              </article>
+              <article class="leader-card">
+                <img src="/assets/team/sarthak-varchasvi.webp" alt="Portrait of Sarthak Varchasvi" width="112" height="112" loading="lazy" />
+                <div class="leader-copy">
+                  <p class="leader-role">Co-Founder &amp; CTO — Robotics</p>
+                  <h3>Sarthak Varchasvi</h3>
+                  <p class="leader-bio">Heads mechanical design, embedded systems, and autonomy integration.</p>
+                  <a class="leader-link" href="https://www.linkedin.com/in/sarthakvarchasvi/" target="_blank" rel="noopener noreferrer" aria-label="Sarthak Varchasvi on LinkedIn">LinkedIn <span aria-hidden="true">↗</span></a>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="parallel-programme"><span class="micro-label">EARLY-STAGE PROGRAMME</span><strong>CubeSat programme</strong><p>An early-stage programme sharing the autonomy and systems-engineering base. No name, orbit or performance specification is claimed.</p></div>
+        </div>
+      </section>
+
+      <section class="contact-section" id="contact" aria-labelledby="contact-title">
+        <div class="contact-shell section-shell"><div class="contact-copy"><p class="eyebrow">For evaluation &amp; partnership</p><h2 id="contact-title">Start with a<br /><em>technical conversation.</em></h2><p>We welcome candid discussion about the architecture, its gaps and the evidence needed to move it forward.</p></div><div class="contact-actions"><a class="contact-link" href="mailto:blackvolt.tech@gmail.com"><span>Email</span><strong>blackvolt.tech@gmail.com</strong><i aria-hidden="true">↗</i></a><a class="contact-link" href="tel:+918530675353"><span>Phone</span><strong>+91 85306 75353</strong><i aria-hidden="true">↗</i></a><div class="contact-affiliation"><span>Incubated at</span><strong>V-NEST · VIT Chennai</strong></div></div></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand footer-brand" href="#top" aria-label="Back to top"><img src="/assets/blackvolt-mark.png" alt="" width="36" height="36" loading="lazy" /><span class="brand-wordmark">BLACKVOLT<span>TECHNOLOGIES</span></span></a>
+      <p>AUV status reflects the programme snapshot dated 29 September 2026; VAJRA-KAAL maturity reflects revision 3.0, August 2026. AUV figures are explicitly labelled as CAD, requirements or future aims. No operational capability is claimed.</p>
+      <nav class="footer-socials" aria-label="BlackVolt social profiles">
+        <span class="footer-socials-label">Follow BlackVolt</span>
+        <a href="https://www.linkedin.com/company/backvolt/" target="_blank" rel="noopener noreferrer" aria-label="BlackVolt on LinkedIn">LinkedIn <span aria-hidden="true">↗</span></a>
+        <a href="https://www.instagram.com/blackvolt.in/" target="_blank" rel="noopener noreferrer" aria-label="BlackVolt on Instagram">Instagram <span aria-hidden="true">↗</span></a>
+      </nav>
+      <a href="#top" class="back-to-top">Back to top <span aria-hidden="true">↑</span></a>
+      <small>© BlackVolt Technologies Pvt. Ltd.</small>
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>
