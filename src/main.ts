@@ -1,214 +1,157 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import './styles.css';
-import { createDroneModel, type DroneModelKey } from './models/droneModels';
+import { createAuvModel } from './models/auvModel';
+import { createInterceptorModel } from './models/interceptorModel';
 
-const modelDetails: Record<DroneModelKey, { status: string; title: string; description: string; fallback: string; fallbackAlt: string; scale: number }> = {
-  airframe: {
-    status: 'Current prototype · illustrative 3D',
-    title: 'Printed interceptor airframe',
-    description: 'Tail-sitter layout with four wing-tip nacelles and a nose sensor aperture. Printed for structure and fit validation; not powered or flown.',
-    fallback: '/assets/hardware/interceptor-airframe-top.jpg',
-    fallbackAlt: 'Photograph of the printed interceptor airframe prototype on a laboratory table.',
-    scale: 0.78,
-  },
-  sprint: {
-    status: 'Concept role · illustrative 3D',
-    title: 'Sprint',
-    description: 'High-speed, short-endurance role described in the PDF. The model is an original visual interpretation, not a configured or tested aircraft.',
-    fallback: '/assets/hardware/interceptor-airframe-top.jpg',
-    fallbackAlt: 'The concept model is not a photograph; the source photograph below shows the printed airframe prototype.',
-    scale: 0.88,
-  },
-  picket: {
-    status: 'Concept role · illustrative 3D',
-    title: 'Picket',
-    description: 'Lower-speed, longer-endurance sector-hold role described in the PDF. Geometry is illustrative and not to scale.',
-    fallback: '/assets/hardware/interceptor-airframe-angle.jpg',
-    fallbackAlt: 'The concept model is not a photograph; the source photograph below shows the printed airframe prototype.',
-    scale: 0.78,
-  },
-  testbed: {
-    status: 'Current testbed · illustrative 3D',
-    title: 'Multirotor EO detection testbed',
-    description: 'The documented testbed carries an EO camera and onboard compute. The companion board runs detection; a manual RC link is retained.',
-    fallback: '/assets/hardware/testbed-sensor-mast.jpg',
-    fallbackAlt: 'Photograph of a multirotor EO-camera detection testbed with a sensor mast.',
-    scale: 0.71,
-  },
-};
+type ModelFactory = () => THREE.Group;
+type ViewerName = 'auv' | 'interceptor';
 
-function initialiseModelViewer() {
-  const canvas = document.querySelector<HTMLCanvasElement>('#drone-canvas');
-  const stage = document.querySelector<HTMLElement>('#model-stage');
-  const fallback = document.querySelector<HTMLImageElement>('#model-fallback');
-  const title = document.querySelector<HTMLElement>('#model-title');
-  const status = document.querySelector<HTMLElement>('#model-status');
-  const description = document.querySelector<HTMLElement>('#model-description');
-  const live = document.querySelector<HTMLElement>('#viewer-live');
-  const modeLabel = document.querySelector<HTMLElement>('#viewer-mode-label');
-  if (!canvas || !stage || !fallback || !title || !status || !description || !live || !modeLabel) return;
+interface ViewerConfig {
+  name: ViewerName;
+  stageId: string;
+  canvasId: string;
+  statusId: string;
+  makeModel: ModelFactory;
+  cameraDirection: THREE.Vector3;
+  rotationSpeed: number;
+  lightColor: number;
+  fillColor: number;
+}
+
+function mountViewer(config: ViewerConfig): void {
+  const stage = document.getElementById(config.stageId);
+  const canvas = document.getElementById(config.canvasId) as HTMLCanvasElement | null;
+  const liveStatus = document.getElementById(config.statusId);
+  if (!stage || !canvas || !liveStatus) return;
 
   let renderer: THREE.WebGLRenderer;
   try {
     renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
   } catch (error) {
     stage.classList.add('viewer-failed');
-    live.textContent = 'Interactive 3D is unavailable here; the source photograph remains visible.';
-    modeLabel.textContent = 'Source photograph · current prototype';
-    console.info('Three.js viewer unavailable; preserving the photographic fallback.', error);
+    liveStatus.textContent = 'Interactive 3D is unavailable; the source illustration remains visible.';
+    console.info(`${config.name} viewer unavailable; showing its static illustration.`, error);
     return;
   }
 
   const scene = new THREE.Scene();
-  scene.fog = new THREE.Fog(0x101619, 11, 24);
-  const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 80);
-  camera.position.set(5.1, 3.05, 6.8);
-  camera.lookAt(0, 0, 0);
-
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 760 ? 1.5 : 2));
+  const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 100);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 760 ? 1.35 : 1.65));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.18;
-  renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMappingExposure = 1.15;
+  renderer.setClearColor(0x000000, 0);
+  renderer.shadowMap.enabled = false;
 
-  scene.add(new THREE.HemisphereLight(0xd9e2dc, 0x202629, 2.05));
-  const keyLight = new THREE.DirectionalLight(0xffeee3, 3.3);
-  keyLight.position.set(-4.5, 7, 5.5);
-  keyLight.castShadow = true;
-  keyLight.shadow.mapSize.set(1024, 1024);
+  scene.add(new THREE.HemisphereLight(config.lightColor, 0x152326, 2.15));
+  const keyLight = new THREE.DirectionalLight(0xf1efe3, 3.25);
+  keyLight.position.set(-4.4, 7.2, 5.4);
   scene.add(keyLight);
-  const rimLight = new THREE.PointLight(0xf2683f, 16, 15, 2);
-  rimLight.position.set(4, 2.5, -3.5);
+  const rimLight = new THREE.PointLight(config.fillColor, 21, 18, 2);
+  rimLight.position.set(4.2, 3.2, -3.4);
   scene.add(rimLight);
-  const fillLight = new THREE.PointLight(0x8faeb0, 9, 13, 2);
-  fillLight.position.set(-4, 1.6, -2.5);
+  const fillLight = new THREE.PointLight(0x81aaa6, 9, 16, 2);
+  fillLight.position.set(-4, 1.4, 1.2);
   scene.add(fillLight);
 
+  const model = config.makeModel();
+  const bounds = new THREE.Box3().setFromObject(model);
+  const center = bounds.getCenter(new THREE.Vector3());
+  const sphere = bounds.getBoundingSphere(new THREE.Sphere());
+  model.position.sub(center);
+  scene.add(model);
+
+  const floorY = bounds.min.y - center.y - Math.max(0.16, sphere.radius * 0.065);
   const floor = new THREE.Mesh(
-    new THREE.PlaneGeometry(80, 80),
-    new THREE.MeshStandardMaterial({ color: 0x101517, metalness: 0.2, roughness: 0.92, transparent: true, opacity: 0.48 }),
+    new THREE.PlaneGeometry(40, 40),
+    new THREE.MeshStandardMaterial({ color: 0x132b2e, roughness: 0.92, metalness: 0.08, transparent: true, opacity: 0.43 }),
   );
   floor.rotation.x = -Math.PI / 2;
-  floor.position.y = -1.15;
-  floor.receiveShadow = true;
+  floor.position.y = floorY;
   scene.add(floor);
 
-  const grid = new THREE.GridHelper(18, 24, 0x58666a, 0x384348);
-  grid.position.y = -1.13;
-  grid.material.transparent = true;
-  grid.material.opacity = 0.28;
+  const grid = new THREE.GridHelper(Math.max(10, sphere.radius * 5.5), 28, 0x9bb1a5, 0x667e78);
+  grid.position.y = floorY + 0.01;
+  const gridMaterial = grid.material as THREE.Material;
+  gridMaterial.transparent = true;
+  gridMaterial.opacity = 0.22;
   scene.add(grid);
 
-  const guideRing = new THREE.Mesh(
-    new THREE.TorusGeometry(3.05, 0.009, 6, 128),
-    new THREE.MeshBasicMaterial({ color: 0xe97852, transparent: true, opacity: 0.46 }),
-  );
-  guideRing.rotation.x = Math.PI / 2;
-  guideRing.position.y = -1.105;
-  scene.add(guideRing);
-
-  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let reducedMotion = motionPreference.matches;
-  let needsRender = true;
-
-  const modelRoot = new THREE.Group();
-  scene.add(modelRoot);
-  const modelCache = new Map<DroneModelKey, THREE.Group>();
-  const initialKey: DroneModelKey = 'airframe';
-  let activeGroup = createDroneModel(initialKey);
-  activeGroup.scale.setScalar(reducedMotion ? modelDetails[initialKey].scale : 0.001);
-  modelRoot.add(activeGroup);
-  modelCache.set(initialKey, activeGroup);
-  let targetScale = modelDetails[initialKey].scale;
-  let dragging = false;
-
+  const cameraDistance = sphere.radius * 3.05;
+  const direction = config.cameraDirection.clone().normalize();
+  const homePosition = direction.multiplyScalar(cameraDistance);
+  camera.position.copy(homePosition);
+  camera.lookAt(0, 0, 0);
   const controls = new OrbitControls(camera, canvas);
-  controls.enableDamping = !reducedMotion;
+  controls.enableDamping = true;
   controls.dampingFactor = 0.055;
   controls.enablePan = false;
-  controls.minDistance = 4.5;
-  controls.maxDistance = 10;
-  controls.minPolarAngle = 0.45;
-  controls.maxPolarAngle = Math.PI * 0.79;
+  controls.enableZoom = true;
+  controls.minDistance = sphere.radius * 1.6;
+  controls.maxDistance = sphere.radius * 4.8;
+  controls.minPolarAngle = 0.25;
+  controls.maxPolarAngle = Math.PI * 0.82;
   controls.target.set(0, 0, 0);
+  controls.update();
+
+  let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let inView = false;
+  let dragging = false;
+  let needsRender = true;
+  let lastTime = 0;
+
   controls.addEventListener('change', () => { needsRender = true; });
   controls.addEventListener('start', () => { dragging = true; });
   controls.addEventListener('end', () => { dragging = false; });
-  controls.update();
 
-  const updateSize = () => {
-    const bounds = stage.getBoundingClientRect();
-    const width = Math.max(1, Math.round(bounds.width));
-    const height = Math.max(1, Math.round(bounds.height));
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 760 ? 1.5 : 2));
+  const resizeObserver = new ResizeObserver(() => {
+    const rect = stage.getBoundingClientRect();
+    const width = Math.max(1, Math.round(rect.width));
+    const height = Math.max(1, Math.round(rect.height));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.innerWidth < 760 ? 1.35 : 1.65));
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     needsRender = true;
-  };
-  const resizeObserver = new ResizeObserver(updateSize);
-  resizeObserver.observe(stage);
-  updateSize();
-
-  const setModel = (key: DroneModelKey) => {
-    if (activeGroup === modelCache.get(key)) return;
-    let next = modelCache.get(key);
-    if (!next) {
-      next = createDroneModel(key);
-      modelCache.set(key, next);
-      modelRoot.add(next);
-    }
-    activeGroup.visible = false;
-    next.visible = true;
-    next.rotation.set(0, 0, 0);
-    next.scale.setScalar(reducedMotion ? modelDetails[key].scale : 0.001);
-    activeGroup = next;
-    targetScale = modelDetails[key].scale;
-    needsRender = true;
-    title.textContent = modelDetails[key].title;
-    status.textContent = modelDetails[key].status;
-    description.textContent = modelDetails[key].description;
-    fallback.src = modelDetails[key].fallback;
-    fallback.alt = modelDetails[key].fallbackAlt;
-    stage.dataset.activeModel = key;
-    live.textContent = `${modelDetails[key].title} selected. Drag to orbit; use the model buttons to switch.`;
-    document.querySelectorAll<HTMLButtonElement>('[data-model]').forEach((button) => {
-      const selected = button.dataset.model === key;
-      button.setAttribute('aria-pressed', selected ? 'true' : 'false');
-    });
-  };
-
-  document.querySelectorAll<HTMLButtonElement>('[data-model]').forEach((button) => {
-    button.addEventListener('click', () => {
-      const key = button.dataset.model as DroneModelKey | undefined;
-      if (key && key in modelDetails) setModel(key);
-    });
   });
+  resizeObserver.observe(stage);
 
-  let previousTime = 0;
+  const visibilityObserver = new IntersectionObserver((entries) => {
+    inView = entries.some((entry) => entry.isIntersecting);
+    needsRender = true;
+  }, { threshold: 0.05 });
+  visibilityObserver.observe(stage);
+
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
   motionPreference.addEventListener('change', (event) => {
     reducedMotion = event.matches;
     controls.enableDamping = !reducedMotion;
-    if (reducedMotion) activeGroup.position.y = 0;
-    previousTime = 0;
+    lastTime = 0;
+    needsRender = true;
+    if (reducedMotion) model.rotation.y = 0;
+  });
+
+  const resetButton = document.querySelector<HTMLButtonElement>(`[data-view-reset="${config.name}"]`);
+  resetButton?.addEventListener('click', () => {
+    camera.position.copy(homePosition);
+    controls.target.set(0, 0, 0);
+    controls.update();
+    model.rotation.set(0, 0, 0);
+    liveStatus.textContent = 'View reset. Drag the model to rotate.';
     needsRender = true;
   });
+
   renderer.setAnimationLoop((time) => {
-    const delta = previousTime === 0 ? 0 : Math.min((time - previousTime) / 1000, 0.05);
-    previousTime = time;
+    if (!inView) return;
+    const delta = lastTime === 0 ? 0 : Math.min((time - lastTime) / 1000, 0.05);
+    lastTime = time;
     if (!reducedMotion) {
-      if (!dragging) activeGroup.rotation.y += delta * 0.055;
-      const currentScale = activeGroup.scale.x;
-      const easedScale = THREE.MathUtils.damp(currentScale, targetScale, 4.5, delta);
-      activeGroup.scale.setScalar(easedScale);
-      activeGroup.position.y = Math.sin(time * 0.00038) * 0.035;
+      if (!dragging) model.rotation.y += delta * config.rotationSpeed;
       controls.update();
       renderer.render(scene, camera);
       return;
     }
-    activeGroup.position.y = 0;
     if (needsRender) {
       controls.update();
       renderer.render(scene, camera);
@@ -217,12 +160,10 @@ function initialiseModelViewer() {
   });
 
   stage.classList.add('viewer-ready');
-  status.textContent = modelDetails[initialKey].status;
-  modeLabel.textContent = 'Illustrative model · not to scale';
-  live.textContent = 'Drag the model to orbit; choose a model to switch.';
+  liveStatus.textContent = 'Illustrative model ready. Drag to rotate; use Reset view to return.';
 }
 
-function initialiseNavigation() {
+function initialiseNavigation(): void {
   const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
   const nav = document.querySelector<HTMLElement>('#mobile-nav');
   if (!toggle || !nav) return;
@@ -244,11 +185,11 @@ function initialiseNavigation() {
   });
 }
 
-function initialiseReveals() {
+function initialiseReveals(): void {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reducedMotion || !('IntersectionObserver' in window)) return;
-  const revealTargets = document.querySelectorAll<HTMLElement>('.section-heading, .architecture-row, .interceptor-card, .status-card, .hardware-card, .programme-card, .company-copy, .contact-copy');
-  revealTargets.forEach((target) => target.classList.add('reveal'));
+  const targets = document.querySelectorAll<HTMLElement>('.auv-operating, .dual-role, .progress-block, .interceptor-roles, .air-evidence, .architecture-row, .vajra-proof, .company-copy');
+  targets.forEach((target) => target.classList.add('reveal'));
   document.documentElement.classList.add('motion-ready');
   const observer = new IntersectionObserver((entries, currentObserver) => {
     entries.forEach((entry) => {
@@ -257,10 +198,31 @@ function initialiseReveals() {
         currentObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
-  revealTargets.forEach((target) => observer.observe(target));
+  }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+  targets.forEach((target) => observer.observe(target));
 }
 
 initialiseNavigation();
 initialiseReveals();
-initialiseModelViewer();
+mountViewer({
+  name: 'auv',
+  stageId: 'auv-stage',
+  canvasId: 'auv-canvas',
+  statusId: 'auv-view-status',
+  makeModel: createAuvModel,
+  cameraDirection: new THREE.Vector3(3.6, 2.8, 5.3),
+  rotationSpeed: 0.055,
+  lightColor: 0xc9ded5,
+  fillColor: 0x4f9b97,
+});
+mountViewer({
+  name: 'interceptor',
+  stageId: 'interceptor-stage',
+  canvasId: 'interceptor-canvas',
+  statusId: 'interceptor-view-status',
+  makeModel: createInterceptorModel,
+  cameraDirection: new THREE.Vector3(4.2, 3.1, 5.1),
+  rotationSpeed: 0.07,
+  lightColor: 0xe2d6c4,
+  fillColor: 0xd17a55,
+});
